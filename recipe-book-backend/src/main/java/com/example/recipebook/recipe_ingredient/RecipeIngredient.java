@@ -36,4 +36,10 @@ public class RecipeIngredient {
     @Column(nullable = false)
     @NotBlank
     private String quantity;
+
+    public RecipeIngredient(Recipe recipe, Ingredient ingredient, String quantity) {
+        this.recipe = recipe;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+    }
 }

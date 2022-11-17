@@ -1,10 +1,9 @@
 package com.example.recipebook.recipe;
 
-import com.example.recipebook.diet.Diet;
 import com.example.recipebook.category.Category;
+import com.example.recipebook.diet.Diet;
 import com.example.recipebook.recipe_ingredient.RecipeIngredient;
 import com.example.recipebook.step.Step;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -65,4 +64,8 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<Step> steps = new HashSet<>();
+
+    public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
+        recipeIngredients.add(recipeIngredient);
+    }
 }

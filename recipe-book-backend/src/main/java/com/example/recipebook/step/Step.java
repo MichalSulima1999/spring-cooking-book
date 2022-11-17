@@ -29,13 +29,12 @@ public class Step {
     private String description;
 
     @Column(nullable = false)
-    @NotBlank
+    @NotNull
     private int stepNumber;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "recipe_id", nullable = false)
     @JsonIgnoreProperties("steps")
-    @NotNull
     private Recipe recipe;
 }
