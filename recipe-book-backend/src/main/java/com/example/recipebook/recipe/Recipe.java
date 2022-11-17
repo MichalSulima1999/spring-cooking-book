@@ -30,7 +30,7 @@ public class Recipe {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false, length = 64, unique = true)
     @NotBlank
     private String name;
 
