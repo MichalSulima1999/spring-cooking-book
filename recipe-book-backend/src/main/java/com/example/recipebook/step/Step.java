@@ -1,17 +1,16 @@
 package com.example.recipebook.step;
 
-import com.example.recipebook.recipe.Recipe;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.recipebook.recipe_step.RecipeStep;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,13 +27,7 @@ public class Step {
     @NotBlank
     private String description;
 
-    @Column(nullable = false)
-    @NotNull
-    private int stepNumber;
-
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "recipe_id", nullable = false)
-    @JsonIgnoreProperties("steps")
-    private Recipe recipe;
+    @JsonIgnore
+    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
+    private Set<RecipeStep> recipeIngredients = new HashSet<>();
 }

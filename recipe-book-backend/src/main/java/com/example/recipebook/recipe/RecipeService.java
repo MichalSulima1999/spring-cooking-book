@@ -8,7 +8,9 @@ import com.example.recipebook.ingredient.Ingredient;
 import com.example.recipebook.ingredient.IngredientRepo;
 import com.example.recipebook.recipe.dto.AddRecipeWrapper;
 import com.example.recipebook.recipe.dto.IngredientQuantityDto;
+import com.example.recipebook.recipe.dto.StepNumberDto;
 import com.example.recipebook.recipe_ingredient.RecipeIngredient;
+import com.example.recipebook.recipe_step.RecipeStep;
 import com.example.recipebook.step.Step;
 import com.example.recipebook.step.StepRepo;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,13 +45,13 @@ public class RecipeService {
         Diet diet = recipeWrapper.getDiet();
         setDietInRecipe(diet, recipe);
 
-        List<IngredientQuantityDto> ingredientQuantityDtos = recipeWrapper.getIngredients();
+        List<IngredientQuantityDto> ingredientQuantityDtos = recipeWrapper.getIngredientQuantityDtos();
         setIngredientsInRecipe(ingredientQuantityDtos, recipe);
 
         Recipe newRecipe = recipeRepo.save(recipe);
-        List<Step> steps = recipeWrapper.getSteps();
-        setStepsInRecipe(steps, newRecipe);
-        
+        List<StepNumberDto> stepNumberDtos = recipeWrapper.getStepNumberDtos();
+        setStepsInRecipe(stepNumberDtos, newRecipe);
+
         return newRecipe;
     }
 
@@ -89,9 +90,18 @@ public class RecipeService {
         }
     }
 
-    private void setStepsInRecipe(List<Step> steps, Recipe recipe) {
-        steps = steps.stream().peek(step -> step.setRecipe(recipe)).toList();
-        List<Step> savedSteps = stepRepo.saveAll(steps);
-        recipe.setSteps(new HashSet<>(savedSteps));
+    private void setStepsInRecipe(List<StepNumberDto> stepNumberDtos, Recipe recipe) {
+        for (StepNumberDto stepNumberDto :
+                stepNumberDtos) {
+            Optional<Step> optionalStep = stepRepo.findByDescription(stepNumberDto.getStep().getDescription());
+            if (optionalStep.isPresent()) {
+                RecipeStep recipeStep = new RecipeStep(recipe, optionalStep.get(), stepNumberDto.getStepNumber());
+                recipe.addRecipeStep(recipeStep);
+            } else {
+                Step newStep = stepRepo.save(stepNumberDto.getStep());
+                RecipeStep recipeStep = new RecipeStep(recipe, newStep, stepNumberDto.getStepNumber());
+                recipe.addRecipeStep(recipeStep);
+            }
+        }
     }
 }
