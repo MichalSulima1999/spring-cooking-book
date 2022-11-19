@@ -35,6 +35,10 @@ public class RecipeService {
         return recipeRepo.findAll(pageable);
     }
 
+    public Recipe getRecipe(Long recipeId) {
+        return recipeRepo.findById(recipeId).orElse(null);
+    }
+
     @Transactional
     public Recipe addRecipe(AddRecipeWrapper recipeWrapper) {
         Recipe recipe = recipeWrapper.getRecipe();

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
 @Slf4j
@@ -27,6 +28,12 @@ public record RecipeController(RecipeService recipeService) {
         Pageable page = PageRequest.of(pageNum, pageSize,
                 Sort.by("name").ascending());
         return ResponseEntity.ok().body(recipeService.getRecipePage(page));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Recipe> getRecipe(@Parameter(description = "id of the recipe to search") @PathVariable long id,
+                                            HttpServletResponse response) {
+        return ResponseEntity.ok().body(recipeService.getRecipe(id));
     }
 
     @PostMapping
