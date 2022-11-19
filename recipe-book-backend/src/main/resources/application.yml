@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    password: ''
+    username: root
+    url: jdbc:mysql://localhost:3306/recipe_book?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
+    platform: mysql
+springdoc:
+  api-docs:
+    path: /api-docs
