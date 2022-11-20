@@ -82,12 +82,12 @@ public class RecipeService {
     private void setIngredientsInRecipe(List<IngredientQuantityDto> ingredientQuantityDtos, Recipe recipe) {
         for (IngredientQuantityDto ingredientQuantityDto :
                 ingredientQuantityDtos) {
-            Optional<Ingredient> optionalIngredient = ingredientRepo.findByName(ingredientQuantityDto.getIngredient().getName());
+            Optional<Ingredient> optionalIngredient = ingredientRepo.findByName(ingredientQuantityDto.getIngredientName());
             if (optionalIngredient.isPresent()) {
                 RecipeIngredient recipeIngredient = new RecipeIngredient(recipe, optionalIngredient.get(), ingredientQuantityDto.getQuantity());
                 recipe.addRecipeIngredient(recipeIngredient);
             } else {
-                Ingredient newIngredient = ingredientRepo.save(ingredientQuantityDto.getIngredient());
+                Ingredient newIngredient = ingredientRepo.save(new Ingredient(ingredientQuantityDto.getIngredientName()));
                 RecipeIngredient recipeIngredient = new RecipeIngredient(recipe, newIngredient, ingredientQuantityDto.getQuantity());
                 recipe.addRecipeIngredient(recipeIngredient);
             }
@@ -97,12 +97,12 @@ public class RecipeService {
     private void setStepsInRecipe(List<StepNumberDto> stepNumberDtos, Recipe recipe) {
         for (StepNumberDto stepNumberDto :
                 stepNumberDtos) {
-            Optional<Step> optionalStep = stepRepo.findByDescription(stepNumberDto.getStep().getDescription());
+            Optional<Step> optionalStep = stepRepo.findByDescription(stepNumberDto.getStepDescription());
             if (optionalStep.isPresent()) {
                 RecipeStep recipeStep = new RecipeStep(recipe, optionalStep.get(), stepNumberDto.getStepNumber());
                 recipe.addRecipeStep(recipeStep);
             } else {
-                Step newStep = stepRepo.save(stepNumberDto.getStep());
+                Step newStep = stepRepo.save(new Step(stepNumberDto.getStepDescription()));
                 RecipeStep recipeStep = new RecipeStep(recipe, newStep, stepNumberDto.getStepNumber());
                 recipe.addRecipeStep(recipeStep);
             }

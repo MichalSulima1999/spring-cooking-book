@@ -2,11 +2,9 @@ package com.example.recipebook.recipe;
 
 import com.example.recipebook.category.Category;
 import com.example.recipebook.diet.Diet;
-import com.example.recipebook.ingredient.Ingredient;
 import com.example.recipebook.recipe.dto.AddRecipeWrapper;
 import com.example.recipebook.recipe.dto.IngredientQuantityDto;
 import com.example.recipebook.recipe.dto.StepNumberDto;
-import com.example.recipebook.step.Step;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -57,11 +55,11 @@ class RecipeControllerTest {
             Category category = new Category(0L, "Category " + i);
             Diet diet = new Diet(0L, "Diet " + i);
             List<IngredientQuantityDto> ingredientQuantityDtos = Arrays.asList(
-                    new IngredientQuantityDto(new Ingredient(0L, "Ingr 1 " + i, null), "250g"),
-                    new IngredientQuantityDto(new Ingredient(0L, "Ingr 2" + i, null), "260g"));
+                    new IngredientQuantityDto("Ingr 1 " + i, "250g"),
+                    new IngredientQuantityDto("Ingr 1 " + i, "260g"));
             List<StepNumberDto> stepNumberDtos = Arrays.asList(
-                    new StepNumberDto(new Step(0L, "Step 1 desc " + i, null), 1),
-                    new StepNumberDto(new Step(0L, "Step 2 desc " + i, null), 2));
+                    new StepNumberDto("Step 1 desc " + i, 1),
+                    new StepNumberDto("Step 2 desc " + i, 2));
 
             AddRecipeWrapper addRecipeWrapper = new AddRecipeWrapper(recipe, category, diet,
                     ingredientQuantityDtos, stepNumberDtos);
@@ -115,11 +113,11 @@ class RecipeControllerTest {
         Category category = new Category(0L, "Category");
         Diet diet = new Diet(0L, "Diet");
         List<IngredientQuantityDto> ingredientQuantityDtos = Arrays.asList(
-                new IngredientQuantityDto(new Ingredient(0L, "Ingr 1", null), "250g"),
-                new IngredientQuantityDto(new Ingredient(0L, "Ingr 2", null), "260g"));
+                new IngredientQuantityDto("Ingr 1", "250g"),
+                new IngredientQuantityDto("Ingr 2", "260g"));
         List<StepNumberDto> stepNumberDtos = Arrays.asList(
-                new StepNumberDto(new Step(0L, "Step 1 desc", null), 1),
-                new StepNumberDto(new Step(0L, "Step 2 desc", null), 2));
+                new StepNumberDto("Step 1 desc", 1),
+                new StepNumberDto("Step 2 desc", 2));
 
         AddRecipeWrapper addRecipeWrapper = new AddRecipeWrapper(recipe, category, diet, ingredientQuantityDtos, stepNumberDtos);
 

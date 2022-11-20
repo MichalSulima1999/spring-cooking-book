@@ -30,4 +30,8 @@ public class Step {
     @JsonIgnore
     @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
     private Set<RecipeStep> recipeIngredients = new HashSet<>();
+
+    public Step(String description) {
+        this.description = description;
+    }
 }
