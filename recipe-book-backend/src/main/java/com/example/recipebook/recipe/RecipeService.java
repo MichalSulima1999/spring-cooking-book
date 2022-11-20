@@ -2,6 +2,7 @@ package com.example.recipebook.recipe;
 
 import com.example.recipebook.category.Category;
 import com.example.recipebook.category.CategoryRepo;
+import com.example.recipebook.configs.AppProperties;
 import com.example.recipebook.diet.Diet;
 import com.example.recipebook.diet.DietRepo;
 import com.example.recipebook.ingredient.Ingredient;
@@ -13,14 +14,19 @@ import com.example.recipebook.recipe_ingredient.RecipeIngredient;
 import com.example.recipebook.recipe_step.RecipeStep;
 import com.example.recipebook.step.Step;
 import com.example.recipebook.step.StepRepo;
+import com.example.recipebook.utils.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +36,7 @@ public class RecipeService {
     private final DietRepo dietRepo;
     private final IngredientRepo ingredientRepo;
     private final StepRepo stepRepo;
+    private final AppProperties appProperties;
 
     public Page<Recipe> getRecipePage(Pageable pageable) {
         return recipeRepo.findAll(pageable);
@@ -57,6 +64,34 @@ public class RecipeService {
         setStepsInRecipe(stepNumberDtos, newRecipe);
 
         return newRecipe;
+    }
+
+    public String editRecipeImage(Long recipeId, MultipartFile imageFile) throws IOException {
+        Optional<Recipe> optionalRecipe = recipeRepo.findById(recipeId);
+
+        if (optionalRecipe.isEmpty()) {
+            return null;
+        }
+
+        String fileExtension = Objects.requireNonNull(imageFile.getOriginalFilename())
+                .substring(imageFile.getOriginalFilename().lastIndexOf('.'));
+
+        String uploadDir = appProperties.getFileDirectories().getRecipeImageDirectory();
+        String fileName;
+        if (optionalRecipe.get().getImage() == null) {
+            fileName = UUID.randomUUID() + fileExtension;
+        } else {
+            FileUploadUtil.deleteFile(uploadDir, optionalRecipe.get().getImage());
+            String imageName = optionalRecipe.get().getImage()
+                    .substring(optionalRecipe.get().getImage().lastIndexOf('.'));
+            fileName = imageName + fileExtension;
+        }
+
+        FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
+
+        optionalRecipe.get().setImage(fileName);
+        Recipe savedRecipe = recipeRepo.save(optionalRecipe.get());
+        return savedRecipe.getImage();
     }
 
     private void setCategoryInRecipe(Category category, Recipe recipe) {
