@@ -1,14 +1,13 @@
 package com.example.recipebook.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 
+@Slf4j
 public class FileUploadUtil {
     public static void saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile) throws IOException {
@@ -29,6 +28,11 @@ public class FileUploadUtil {
     public static void deleteFile(String uploadDir, String fileName) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
         Path filePath = uploadPath.resolve(fileName);
-        Files.delete(filePath);
+        try {
+            Files.delete(filePath);
+        } catch (NoSuchFileException e) {
+            log.error("No image to delete!");
+        }
+
     }
 }

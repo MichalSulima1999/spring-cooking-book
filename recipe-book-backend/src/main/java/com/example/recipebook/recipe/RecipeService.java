@@ -16,6 +16,7 @@ import com.example.recipebook.step.Step;
 import com.example.recipebook.step.StepRepo;
 import com.example.recipebook.utils.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RecipeService {
     private final RecipeRepo recipeRepo;
     private final CategoryRepo categoryRepo;
@@ -76,14 +78,15 @@ public class RecipeService {
         String fileExtension = Objects.requireNonNull(imageFile.getOriginalFilename())
                 .substring(imageFile.getOriginalFilename().lastIndexOf('.'));
 
-        String uploadDir = appProperties.getFileDirectories().getRecipeImageDirectory();
+        String uploadDir = appProperties.getDirectories().getRecipe();
+        log.info(uploadDir);
         String fileName;
-        if (optionalRecipe.get().getImage() == null) {
+        if (optionalRecipe.get().getImage() == null || optionalRecipe.get().getImage().equals("")) {
             fileName = UUID.randomUUID() + fileExtension;
         } else {
             FileUploadUtil.deleteFile(uploadDir, optionalRecipe.get().getImage());
             String imageName = optionalRecipe.get().getImage()
-                    .substring(optionalRecipe.get().getImage().lastIndexOf('.'));
+                    .substring(0, optionalRecipe.get().getImage().lastIndexOf('.'));
             fileName = imageName + fileExtension;
         }
 
