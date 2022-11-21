@@ -22,4 +22,8 @@ public class Diet {
     @Column(nullable = false, unique = true)
     @NotBlank
     private String name;
+
+    public Diet(String name) {
+        this.name = name;
+    }
 }
