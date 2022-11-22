@@ -12,4 +12,4 @@ spring-doc:
     path: /api-docs
 app:
   directories:
-    recipe-image-directory: recipe-images/
+    recipe: recipe-images/
