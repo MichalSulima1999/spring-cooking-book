@@ -9,6 +9,7 @@ import com.example.recipebook.ingredient.Ingredient;
 import com.example.recipebook.ingredient.IngredientRepo;
 import com.example.recipebook.recipe.dto.AddRecipeWrapper;
 import com.example.recipebook.recipe.dto.IngredientQuantityDto;
+import com.example.recipebook.recipe.dto.RecipeGeneralInfo;
 import com.example.recipebook.recipe.dto.StepNumberDto;
 import com.example.recipebook.recipe_ingredient.RecipeIngredient;
 import com.example.recipebook.recipe_step.RecipeStep;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +48,11 @@ public class RecipeService {
 
     public Recipe getRecipe(Long recipeId) {
         return recipeRepo.findById(recipeId).orElse(null);
+    }
+
+    public Page<RecipeGeneralInfo> findBySearchCriteria
+            (Specification<Recipe> spec, Pageable page) {
+        return recipeRepo.findAll(spec, RecipeGeneralInfo.class, page);
     }
 
     @Transactional

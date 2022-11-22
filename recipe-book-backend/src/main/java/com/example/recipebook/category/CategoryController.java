@@ -13,6 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/category")
 public record CategoryController(CategoryService categoryService) {
+    @Operation(summary = "Get all categories")
+    @GetMapping("/all")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return ResponseEntity.ok().body(categoryService.getAllCategories());
+    }
+
     @Operation(summary = "Get a few categories by name")
     @GetMapping
     public ResponseEntity<List<Category>> getLimitedCategoriesByDescription(@Parameter(description = "Category name like")

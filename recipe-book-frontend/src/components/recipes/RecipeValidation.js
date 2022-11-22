@@ -52,4 +52,15 @@ const RecipeValidation = () => {
   });
 };
 
+export const RecipeSearchValidation = () => {
+  return yup.object().shape({
+    category: yup.string(),
+    name: yup.string(),
+    diet: yup.string(),
+    skillLevel: yup.string(),
+    cookingMinutes: yup.number("Pole powinno być liczbą!"),
+    sort: yup.string(),
+  });
+};
+
 export default RecipeValidation;

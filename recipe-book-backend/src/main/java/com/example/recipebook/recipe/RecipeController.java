@@ -1,6 +1,10 @@
 package com.example.recipebook.recipe;
 
 import com.example.recipebook.recipe.dto.AddRecipeWrapper;
+import com.example.recipebook.recipe.dto.RecipeGeneralInfo;
+import com.example.recipebook.recipe.specification.RecipeSpecificationBuilder;
+import com.example.recipebook.search.SearchCriteria;
+import com.example.recipebook.search.SearchDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -33,6 +38,50 @@ public record RecipeController(RecipeService recipeService) {
         Pageable page = PageRequest.of(pageNum, pageSize,
                 Sort.by("name").ascending());
         return ResponseEntity.ok().body(recipeService.getRecipePage(page));
+    }
+
+    @Operation(summary = "Get paged dishes based on multiple search criteria")
+    @PostMapping("/search")
+    public ResponseEntity<Page<RecipeGeneralInfo>> searchRecipe(
+            @Parameter(description = "page number")
+            @RequestParam(name = "pageNum",
+                    defaultValue = "0") int pageNum,
+            @Parameter(description = "records per page")
+            @RequestParam(name = "pageSize",
+                    defaultValue = "10") int pageSize,
+            @RequestBody SearchDTO
+                    searchDto) {
+        RecipeSpecificationBuilder builder = new
+                RecipeSpecificationBuilder();
+        List<SearchCriteria> criteriaList =
+                searchDto.getSearchCriteriaList();
+        if (criteriaList != null) {
+            criteriaList.forEach(x ->
+            {
+                x.setDataOption(searchDto
+                        .getDataOption());
+                builder.with(x);
+            });
+        }
+        Pageable page;
+
+        if (searchDto.getOrderByField() == null) {
+            page = PageRequest.of(pageNum, pageSize,
+                    Sort.by("name").ascending());
+        } else {
+            if (searchDto.getOrderByAscending()) {
+                page = PageRequest.of(pageNum, pageSize,
+                        Sort.by(searchDto.getOrderByField()).ascending());
+            } else {
+                page = PageRequest.of(pageNum, pageSize,
+                        Sort.by(searchDto.getOrderByField()).descending());
+            }
+        }
+
+        Page<RecipeGeneralInfo> recipePage =
+                recipeService.findBySearchCriteria(builder.build(), page);
+
+        return ResponseEntity.ok().body(recipePage);
     }
 
     @Operation(summary = "Get recipe by its id")

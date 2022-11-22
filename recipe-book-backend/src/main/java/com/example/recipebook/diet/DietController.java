@@ -13,6 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/diet")
 public record DietController(DietService dietService) {
+    @Operation(summary = "Get all diets")
+    @GetMapping("/all")
+    public ResponseEntity<List<Diet>> getAllCategories() {
+        return ResponseEntity.ok().body(dietService.getAllDiets());
+    }
+
     @Operation(summary = "Get a few diets by name")
     @GetMapping
     public ResponseEntity<List<Diet>> getLimitedDietsByDescription(@Parameter(description = "Diet name like")

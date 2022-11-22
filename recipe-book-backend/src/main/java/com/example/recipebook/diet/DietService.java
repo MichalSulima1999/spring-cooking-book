@@ -10,6 +10,10 @@ import java.util.List;
 public class DietService {
     private final DietRepo dietRepo;
 
+    public List<Diet> getAllDiets() {
+        return dietRepo.findAll();
+    }
+
     public List<Diet> getLimitedDietsByName(String name) {
         return dietRepo.findTop5ByNameContainsIgnoreCase(name);
     }

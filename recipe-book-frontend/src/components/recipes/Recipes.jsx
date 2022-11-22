@@ -12,6 +12,10 @@ import RecipesSearch from "./RecipesSearch";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState([{}]);
+  const [searchBody, setSearchBody] = useState({
+    searchCriteriaList: [],
+    dataOption: "all",
+  });
 
   const [numberOfElements, setNumberOfElements] = useState(0);
   const [page, setPage] = useState(0);
@@ -21,11 +25,14 @@ const Recipes = () => {
 
   useEffect(() => {
     getRecipes();
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, searchBody]);
 
   const getRecipes = async () => {
     await axios
-      .get(`${RECIPES_URL}?pageNum=${page}&pageSize=${rowsPerPage}`)
+      .post(
+        `${RECIPES_URL}/search?pageNum=${page}&pageSize=${rowsPerPage}`,
+        searchBody
+      )
       .then((res) => {
         console.log(res.data);
         setRecipes(res.data.content);
@@ -56,10 +63,10 @@ const Recipes = () => {
         <div className="mb-3 p-5 pb-2">
           <Row>
             <Col md={3}>
-              <RecipesSearch />
+              <RecipesSearch setSearchBody={setSearchBody} />
             </Col>
             <Col mb={9}>
-              {recipes.length > 1 ? (
+              {recipes.length > 0 ? (
                 <>
                   <Row>
                     {recipes.map((recipe, i) => (
