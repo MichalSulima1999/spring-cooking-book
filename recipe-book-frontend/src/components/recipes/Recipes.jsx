@@ -53,31 +53,34 @@ const Recipes = () => {
       {loading ? (
         <div>Ładowanie...</div>
       ) : (
-        <div className="mb-3 p-5 pb-2 dish_search__bg">
+        <div className="mb-3 p-5 pb-2">
           <Row>
-            <Col md={4}>
+            <Col md={3}>
               <RecipesSearch />
             </Col>
-            <Col mb={8}>
+            <Col mb={9}>
               {recipes.length > 1 ? (
                 <>
                   <Row>
                     {recipes.map((recipe, i) => (
                       <Col
                         md={6}
-                        lg={3}
+                        lg={4}
                         className="mb-3 align-self-center"
                         key={i}
                       >
-                        <Card
-                          sx={{ minHeight: 600 }}
-                          className="d-flex flex-column"
-                        >
+                        <Card className="d-flex flex-column">
                           <CardMedia
                             component="img"
-                            image={`http://localhost:8080/api/dish/image/${recipe.image}`}
+                            height="200"
+                            image={
+                              recipe.image
+                                ? `http://localhost:8080/api/dish/image/${recipe.image}`
+                                : "/chicken.png"
+                            }
                             alt={recipe.name}
                           />
+
                           <CardContent>
                             <Typography
                               gutterBottom
