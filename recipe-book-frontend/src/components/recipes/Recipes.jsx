@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import { RECIPES_URL } from "../../api/urlConstants";
 import TablePagination from "@mui/material/TablePagination";
@@ -11,6 +12,8 @@ import { Col, Row } from "react-bootstrap";
 import RecipesSearch from "./RecipesSearch";
 
 const Recipes = () => {
+  const navigate = useNavigate();
+
   const [recipes, setRecipes] = useState([{}]);
   const [searchBody, setSearchBody] = useState({
     searchCriteriaList: [],
@@ -82,7 +85,7 @@ const Recipes = () => {
                             height="200"
                             image={
                               recipe.image
-                                ? `http://localhost:8080/api/dish/image/${recipe.image}`
+                                ? `http://localhost:8080/api/recipe/image/${recipe.image}`
                                 : "/chicken.png"
                             }
                             alt={recipe.name}
@@ -103,7 +106,7 @@ const Recipes = () => {
                           <CardActions className="d-flex justify-content-between mt-auto mb-1">
                             <Button
                               size="small"
-                              onClick={() => console.log("Szczegóły")}
+                              onClick={() => navigate(`/recipes/${recipe.id}`)}
                             >
                               Szczegóły
                             </Button>
