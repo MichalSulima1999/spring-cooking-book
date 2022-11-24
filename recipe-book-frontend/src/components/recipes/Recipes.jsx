@@ -22,7 +22,7 @@ const Recipes = () => {
 
   const [numberOfElements, setNumberOfElements] = useState(0);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(9);
+  const [rowsPerPage, setRowsPerPage] = useState(8);
 
   const [loading, setLoading] = useState(true);
 
