@@ -1,5 +1,6 @@
 package com.example.recipebook.recipe;
 
+import com.example.recipebook.configs.AppProperties;
 import com.example.recipebook.recipe.dto.AddRecipeWrapper;
 import com.example.recipebook.recipe.dto.RecipeGeneralInfo;
 import com.example.recipebook.recipe.specification.RecipeSpecificationBuilder;
@@ -8,24 +9,30 @@ import com.example.recipebook.search.SearchDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/recipe")
-public record RecipeController(RecipeService recipeService) {
+public record RecipeController(RecipeService recipeService, AppProperties appProperties) {
 
     @Operation(summary = "Get page of recipes")
     @GetMapping
@@ -98,6 +105,14 @@ public record RecipeController(RecipeService recipeService) {
         return ResponseEntity.created(uri).body(recipeService.addRecipe(recipeWrapper));
     }
 
+    @Operation(summary = "Edit recipe")
+    @PutMapping("/{id}")
+    public ResponseEntity<Recipe> editRecipe(@RequestBody AddRecipeWrapper recipeWrapper,
+                                             @PathVariable("id") long recipeId) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/recipe").toUriString());
+        return ResponseEntity.created(uri).body(recipeService.editRecipe(recipeWrapper, recipeId));
+    }
+
     @Operation(summary = "Add image to recipe as MultipartFile")
     @PatchMapping("/image/{id}")
     public ResponseEntity<String> editRecipeImage(@RequestParam("img") MultipartFile imageFile,
@@ -112,5 +127,20 @@ public record RecipeController(RecipeService recipeService) {
 
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/recipe/image/{id}").toUriString());
         return ResponseEntity.created(uri).body(recipeService.editRecipeImage(recipeId, imageFile));
+    }
+
+    @Operation(summary = "Get image of the recipe")
+    @GetMapping("/image/{imageName}")
+    @ResponseBody
+    public ResponseEntity<Resource> getImageWithMediaType(
+            @Parameter(description = "image name of the recipe")
+            @PathVariable String imageName) throws IOException {
+        String inputFile = appProperties.getDirectories().getRecipe() + imageName;
+        Path path = new File(inputFile).toPath();
+        FileSystemResource resource = new FileSystemResource(path);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(Files.probeContentType(path)))
+                .body(resource);
     }
 }

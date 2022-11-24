@@ -63,4 +63,19 @@ export const RecipeSearchValidation = () => {
   });
 };
 
+export const imageValidation = () => {
+  return yup.object().shape({
+    image: yup
+      .mixed()
+      .test("is-correct-file", "Dozwolony rozmiar: 1MB", (image) =>
+        !image ? true : image.size / 1024 / 1024 < 1
+      )
+      .test("is-big-file", "Dozwolone typy: webp, jpeg, png", (image) =>
+        !image
+          ? true
+          : ["image/webp", "image/jpeg", "image/png"].includes(image.type)
+      ),
+  });
+};
+
 export default RecipeValidation;

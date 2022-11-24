@@ -59,11 +59,11 @@ public class Recipe {
     private Diet diet;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RecipeStep> recipeSteps = new HashSet<>();
 
     public void addRecipeIngredient(RecipeIngredient recipeIngredient) {

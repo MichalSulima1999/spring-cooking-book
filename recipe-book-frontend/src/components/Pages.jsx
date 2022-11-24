@@ -4,6 +4,7 @@ import AddRecipe from "./recipes/AddRecipe";
 import Recipes from "./recipes/Recipes";
 import Home from "./home/Home";
 import Recipe from "./recipes/Recipe";
+import EditRecipe from "./recipes/EditRecipe";
 
 function Pages() {
   const location = useLocation();
@@ -13,6 +14,7 @@ function Pages() {
       <Route path="/recipes" element={<Recipes />} />
       <Route path="/recipes/:recipeId" element={<Recipe />} />
       <Route path="/recipes/add" element={<AddRecipe />} />
+      <Route path="/recipes/edit/:recipeId" element={<EditRecipe />} />
     </Routes>
   );
 }

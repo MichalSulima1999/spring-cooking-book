@@ -17,12 +17,58 @@ import {
   INGREDIENTS_URL,
   STEPS_URL,
 } from "../../api/urlConstants";
+import RecipeValidation from "./RecipeValidation";
+import { FormHelperText } from "@mui/material";
 
-const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
+const RecipeForm = ({ handleSubmit, initialValues }) => {
+  const schema = RecipeValidation();
   const [ingredientHints, setIngredientHints] = useState([]);
+  const [init, setInit] = useState({
+    name: "",
+    description: "",
+    cookingMinutes: 0,
+    skillLevel: "EASY",
+    categoryName: "",
+    dietName: "",
+    ingredientQuantity: [
+      {
+        ingredientName: "",
+        quantity: "",
+      },
+    ],
+    stepNumber: [
+      {
+        stepDescription: "",
+        stepNumber: 1,
+      },
+    ],
+  });
   const [categoryHints, setCategoryHints] = useState([]);
   const [stepHints, setStepHints] = useState([]);
   const [dietHints, setDietHints] = useState([]);
+
+  useEffect(() => {
+    if (initialValues) {
+      console.log(initialValues);
+      setInit({
+        name: initialValues.name,
+        description: initialValues.description,
+        cookingMinutes: initialValues.cookingMinutes,
+        skillLevel: initialValues.skillLevel,
+        categoryName: initialValues.category.name,
+        dietName: initialValues.diet.name,
+        ingredientQuantity: initialValues.recipeIngredients.map((ingr) => ({
+          ingredientName: ingr.ingredient.name,
+          quantity: ingr.quantity,
+        })),
+        stepNumber: initialValues.recipeSteps.map((step) => ({
+          stepDescription: step.step.description,
+          stepNumber: step.stepNumber,
+        })),
+      });
+      console.log(initialValues);
+    }
+  }, []);
 
   const getIngredientHints = async (ingredientName) => {
     if (ingredientName.length < 3) {
@@ -86,40 +132,11 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
     }
   };
 
-  let init = {
-    name: "",
-    description: "",
-    cookingMinutes: 0,
-    skillLevel: "EASY",
-    categoryName: "",
-    dietName: "",
-    ingredientQuantity: [
-      {
-        ingredientName: "",
-        quantity: "",
-      },
-    ],
-    stepNumber: [
-      {
-        stepDescription: "",
-        stepNumber: 1,
-      },
-    ],
-  };
-
-  if (initialValues) {
-    init = {
-      ...initialValues,
-    };
-  }
-
   return (
     <div className="text-start">
       <Formik
         initialValues={init}
         enableReinitialize={true}
-        validateOnBlur={false}
-        validateOnChange={false}
         onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
         validationSchema={schema}
       >
@@ -181,25 +198,26 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
                 onBlur={handleBlur}
                 required
                 error={Boolean(touched.skillLevel && errors.skillLevel)}
-                helperText={errors.skillLevel}
               >
                 <MenuItem value="EASY">Łatwy</MenuItem>
                 <MenuItem value="MEDIUM">Średni</MenuItem>
                 <MenuItem value="HARD">Trudny</MenuItem>
               </Select>
+              <FormHelperText>{errors.skillLevel}</FormHelperText>
             </FormControl>
             <Autocomplete
               freeSolo
               id="categoryName"
               disableClearable
               options={categoryHints.map((el) => el.name)}
+              value={values.categoryName}
+              getItemValue={values.categoryName}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
                   label="Kategoria"
                   name="categoryName"
-                  value={values.categoryName}
                   required
                   error={Boolean(touched.categoryName && errors.categoryName)}
                   helperText={errors.categoryName}
@@ -216,13 +234,14 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
               id="dietName"
               disableClearable
               options={dietHints.map((el) => el.name)}
+              value={values.dietName}
+              getItemValue={values.dietName}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
                   label="Dieta"
                   name="dietName"
-                  value={values.dietName}
                   required
                   error={Boolean(touched.dietName && errors.dietName)}
                   helperText={errors.dietName}
@@ -260,13 +279,14 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
                               id={`Name ${index}`}
                               disableClearable
                               options={ingredientHints.map((el) => el.name)}
+                              getItemValue={p.ingredientName}
+                              value={p.ingredientName}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
                                   variant="outlined"
                                   label={`Składnik ${index + 1}`}
                                   name={ingredientName}
-                                  value={p.ingredientName}
                                   required
                                   error={Boolean(
                                     touchedIngredientName && errorIngredientName
@@ -345,6 +365,8 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
                               id={`Step-description-${index}`}
                               disableClearable
                               options={stepHints.map((el) => el.description)}
+                              value={p.stepDescription}
+                              getItemValue={p.stepDescription}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
@@ -352,7 +374,6 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
                                   multiline
                                   label={`Krok ${index + 1}`}
                                   name={stepDescription}
-                                  value={p.stepDescription}
                                   required
                                   error={Boolean(
                                     touchedStepDescription &&
@@ -413,7 +434,7 @@ const RecipeForm = ({ handleSubmit, initialValues, schema }) => {
               )}
             </FieldArray>
             <Button variant="outlined" color="success" type="submit">
-              Dodaj przepis
+              Zapisz przepis
             </Button>
           </Form>
         )}

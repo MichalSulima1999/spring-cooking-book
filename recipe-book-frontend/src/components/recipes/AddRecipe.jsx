@@ -1,16 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-import RecipeValidation from "./RecipeValidation";
 import { RECIPES_URL } from "../../api/urlConstants";
 import RecipeForm from "./RecipeForm";
 import { Container } from "react-bootstrap";
 
 const AddRecipe = () => {
-  const schema = RecipeValidation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (data) => {
-    console.log(data);
-
     const recipe = {
       recipe: {
         id: 0,
@@ -32,7 +30,7 @@ const AddRecipe = () => {
     await axios
       .post(RECIPES_URL, recipe)
       .then((res) => {
-        console.log("Poprawnie dodano przepis");
+        navigate(`/recipes/${recipe.id}`);
       })
       .catch((err) => {
         console.log(err.response);
@@ -44,7 +42,7 @@ const AddRecipe = () => {
       <h1 className="text-center bg-success bg-gradient text-light rounded p-2">
         Dodaj przepis
       </h1>
-      <RecipeForm handleSubmit={handleSubmit} schema={schema} />
+      <RecipeForm handleSubmit={handleSubmit} />
     </Container>
   );
 };

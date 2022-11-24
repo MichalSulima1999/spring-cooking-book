@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Image from "react-bootstrap/Image";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { useParams } from "react-router-dom";
 import axios from "../../api/axios";
 import { RECIPES_URL } from "../../api/urlConstants";
 import { SKILL_MAP } from "./recipesConstants";
 import { Container } from "react-bootstrap";
+import ChangeRecipeImage from "./ChangeRecipeImage";
 
 const Recipe = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { recipeId } = useParams();
 
   const [recipe, setRecipe] = useState([{}]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (location?.state?.recipe) {
+      console.log("Got recipe");
+      setRecipe(location?.state?.recipe);
+      setLoading(false);
+      return;
+    }
+
     getRecipe();
   }, []);
 
@@ -55,6 +63,7 @@ const Recipe = () => {
                 }
                 alt={`${recipe.name} photo`}
               />
+              <ChangeRecipeImage recipe={recipe} setRecipe={setRecipe} />
               <h1 className="bg-success bg-opacity-50 rounded p-2">
                 {recipe.name}
               </h1>
@@ -65,7 +74,13 @@ const Recipe = () => {
               <h3>Poziom trudności: {SKILL_MAP.get(recipe.skillLevel)}</h3>
               <Button
                 variant="primary"
-                onClick={() => navigate(`/recipes/edit/${recipe.id}`)}
+                onClick={() =>
+                  navigate(`/recipes/edit/${recipe.id}`, {
+                    state: {
+                      recipe,
+                    },
+                  })
+                }
               >
                 Edytuj przepis
               </Button>

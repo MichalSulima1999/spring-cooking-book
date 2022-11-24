@@ -12,7 +12,9 @@ import com.example.recipebook.recipe.dto.IngredientQuantityDto;
 import com.example.recipebook.recipe.dto.RecipeGeneralInfo;
 import com.example.recipebook.recipe.dto.StepNumberDto;
 import com.example.recipebook.recipe_ingredient.RecipeIngredient;
+import com.example.recipebook.recipe_ingredient.RecipeIngredientRepo;
 import com.example.recipebook.recipe_step.RecipeStep;
+import com.example.recipebook.recipe_step.RecipeStepRepo;
 import com.example.recipebook.step.Step;
 import com.example.recipebook.step.StepRepo;
 import com.example.recipebook.utils.FileUploadUtil;
@@ -40,6 +42,8 @@ public class RecipeService {
     private final DietRepo dietRepo;
     private final IngredientRepo ingredientRepo;
     private final StepRepo stepRepo;
+    private final RecipeIngredientRepo recipeIngredientRepo;
+    private final RecipeStepRepo recipeStepRepo;
     private final AppProperties appProperties;
 
     public Page<Recipe> getRecipePage(Pageable pageable) {
@@ -58,6 +62,36 @@ public class RecipeService {
     @Transactional
     public Recipe addRecipe(AddRecipeWrapper recipeWrapper) {
         Recipe recipe = recipeWrapper.getRecipe();
+
+        Category category = recipeWrapper.getCategory();
+        setCategoryInRecipe(category, recipe);
+
+        Diet diet = recipeWrapper.getDiet();
+        setDietInRecipe(diet, recipe);
+
+        List<IngredientQuantityDto> ingredientQuantityDtos = recipeWrapper.getIngredientQuantityDtos();
+        setIngredientsInRecipe(ingredientQuantityDtos, recipe);
+
+        Recipe newRecipe = recipeRepo.save(recipe);
+        List<StepNumberDto> stepNumberDtos = recipeWrapper.getStepNumberDtos();
+        setStepsInRecipe(stepNumberDtos, newRecipe);
+
+        return newRecipe;
+    }
+
+    @Transactional
+    public Recipe editRecipe(AddRecipeWrapper recipeWrapper, Long recipeId) {
+        Optional<Recipe> optionalRecipe = recipeRepo.findById(recipeId);
+
+        if (optionalRecipe.isEmpty()) {
+            return null;
+        }
+
+        Recipe recipe = recipeWrapper.getRecipe();
+        recipe.setId(optionalRecipe.get().getId());
+        recipe.setImage(optionalRecipe.get().getImage());
+        recipeIngredientRepo.deleteAllById(optionalRecipe.get().getRecipeIngredients().stream().map(RecipeIngredient::getId).toList());
+        recipeStepRepo.deleteAllById(optionalRecipe.get().getRecipeSteps().stream().map(RecipeStep::getId).toList());
 
         Category category = recipeWrapper.getCategory();
         setCategoryInRecipe(category, recipe);
