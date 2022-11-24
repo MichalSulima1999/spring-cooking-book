@@ -28,6 +28,10 @@ public class Step {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "step", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RecipeStep> recipeIngredients = new HashSet<>();
+
+    public Step(String description) {
+        this.description = description;
+    }
 }

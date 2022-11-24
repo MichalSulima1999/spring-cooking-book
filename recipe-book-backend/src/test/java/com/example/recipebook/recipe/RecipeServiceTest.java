@@ -1,14 +1,20 @@
 package com.example.recipebook.recipe;
 
 import com.example.recipebook.category.Category;
+import com.example.recipebook.configs.AppProperties;
 import com.example.recipebook.diet.Diet;
+import com.example.recipebook.diet.DietRepo;
 import com.example.recipebook.ingredient.Ingredient;
+import com.example.recipebook.ingredient.IngredientRepo;
 import com.example.recipebook.recipe.dto.AddRecipeWrapper;
 import com.example.recipebook.recipe.dto.IngredientQuantityDto;
 import com.example.recipebook.recipe.dto.StepNumberDto;
 import com.example.recipebook.recipe_ingredient.RecipeIngredient;
 import com.example.recipebook.recipe_step.RecipeStep;
 import com.example.recipebook.step.Step;
+import com.example.recipebook.step.StepRepo;
+import com.example.recipebook.utils.FileUploadUtil;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,7 +23,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -31,21 +42,38 @@ class RecipeServiceTest {
 
     Recipe testRecipe;
     @Autowired
+    EntityManager entityManager;
+    @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private RecipeRepo recipeRepo;
+
+    @Autowired
+    private IngredientRepo ingredientRepo;
+
+    @Autowired
+    private StepRepo stepRepo;
+
+    @Autowired
+    private DietRepo dietRepo;
+
+    @Autowired
+    private AppProperties appProperties;
 
     @BeforeAll
     private void setup() {
         Recipe recipe = new Recipe(0L, "Recipe", "Recipe desc",
-                "image", 60, SkillLevel.EASY,
+                null, 60, SkillLevel.EASY,
                 null, null, new HashSet<>(), new HashSet<>());
         Category category = new Category(0L, "Category");
         Diet diet = new Diet(0L, "Diet");
         List<IngredientQuantityDto> ingredientQuantityDtos = Arrays.asList(
-                new IngredientQuantityDto(new Ingredient(0L, "Ingr 1", null), "250g"),
-                new IngredientQuantityDto(new Ingredient(0L, "Ingr 2", null), "260g"));
+                new IngredientQuantityDto("Ingr 1", "250g"),
+                new IngredientQuantityDto("Ingr 2", "260g"));
         List<StepNumberDto> stepNumberDtos = Arrays.asList(
-                new StepNumberDto(new Step(0L, "Step 1 desc", null), 1),
-                new StepNumberDto(new Step(0L, "Step 2 desc", null), 2));
+                new StepNumberDto("Step 1 desc", 1),
+                new StepNumberDto("Step 2 desc", 2));
 
         AddRecipeWrapper addRecipeWrapper = new AddRecipeWrapper(recipe, category, diet, ingredientQuantityDtos, stepNumberDtos);
         testRecipe = recipeService.addRecipe(addRecipeWrapper);
@@ -57,15 +85,23 @@ class RecipeServiceTest {
             Category category1 = new Category(0L, "Category " + i);
             Diet diet1 = new Diet(0L, "Diet " + i);
             List<IngredientQuantityDto> ingredientQuantityDtos1 = Arrays.asList(
-                    new IngredientQuantityDto(new Ingredient(0L, "Ingr 1 " + i, null), "250g"),
-                    new IngredientQuantityDto(new Ingredient(0L, "Ingr 2" + i, null), "260g"));
+                    new IngredientQuantityDto("Ingr 1 " + i, "250g"),
+                    new IngredientQuantityDto("Ingr 2 " + i, "260g"));
             List<StepNumberDto> stepNumberDtos1 = Arrays.asList(
-                    new StepNumberDto(new Step(0L, "Step 1 desc " + i, null), 1),
-                    new StepNumberDto(new Step(0L, "Step 2 desc " + i, null), 2));
+                    new StepNumberDto("Step 1 desc " + i, 1),
+                    new StepNumberDto("Step 2 desc " + i, 2));
 
             AddRecipeWrapper addRecipeWrapper1 = new AddRecipeWrapper(recipe1, category1, diet1, ingredientQuantityDtos1, stepNumberDtos1);
             recipeService.addRecipe(addRecipeWrapper1);
         }
+    }
+
+    @AfterAll
+    private void clearDb() {
+        recipeRepo.deleteAll();
+        stepRepo.deleteAll();
+        dietRepo.deleteAll();
+        ingredientRepo.deleteAll();
     }
 
     @Test
@@ -88,11 +124,11 @@ class RecipeServiceTest {
         Category category = new Category(0L, "Category");
         Diet diet = new Diet(0L, "Diet");
         List<IngredientQuantityDto> ingredientQuantityDtos = Arrays.asList(
-                new IngredientQuantityDto(new Ingredient(0L, "Ingr 1", null), "250g"),
-                new IngredientQuantityDto(new Ingredient(0L, "Ingr 2", null), "260g"));
+                new IngredientQuantityDto("Ingr 1", "250g"),
+                new IngredientQuantityDto("Ingr 2", "260g"));
         List<StepNumberDto> stepNumberDtos = Arrays.asList(
-                new StepNumberDto(new Step(0L, "Step 1 desc", null), 1),
-                new StepNumberDto(new Step(0L, "Step 2 desc", null), 2));
+                new StepNumberDto("Step 1 desc", 1),
+                new StepNumberDto("Step 2 desc", 2));
 
         AddRecipeWrapper addRecipeWrapper = new AddRecipeWrapper(recipe, category, diet, ingredientQuantityDtos, stepNumberDtos);
         Recipe rec = recipeService.addRecipe(addRecipeWrapper);
@@ -114,7 +150,9 @@ class RecipeServiceTest {
         for (RecipeIngredient recipeIngredient :
                 rec.getRecipeIngredients()
         ) {
-            assertTrue(recipeIngredient.getIngredient().getId() < 3L,
+            Query query = entityManager.createQuery("select i from Ingredient i where i.name = '" + recipeIngredient.getIngredient().getName() + "'");
+            List<Ingredient> ingredients = query.getResultList();
+            assertTrue(ingredients.size() < 2,
                     "Ingredients should not duplicate");
         }
 
@@ -124,14 +162,40 @@ class RecipeServiceTest {
         for (RecipeStep recipeStep :
                 rec.getRecipeSteps()
         ) {
-            assertTrue(recipeStep.getStep().getId() < 3L,
+            Query query = entityManager.createQuery("select s from Step s where s.description = '" + recipeStep.getStep().getDescription() + "'");
+            List<Step> steps = query.getResultList();
+            assertTrue(steps.size() < 2,
                     "Steps should not duplicate");
         }
 
-        assertEquals(1L, rec.getCategory().getId(),
+        Query queryCategory = entityManager.createQuery("select c from Category c where c.name = '"
+                + rec.getCategory().getName() + "'");
+        List<Category> categories = queryCategory.getResultList();
+        assertTrue(categories.size() < 2,
                 "Categories should not duplicate");
 
-        assertEquals(1L, rec.getDiet().getId(),
+        Query queryDiet = entityManager.createQuery("select d from Diet d where d.name = '"
+                + rec.getDiet().getName() + "'");
+        List<Diet> diets = queryDiet.getResultList();
+        assertTrue(diets.size() < 2,
                 "Diets should not duplicate");
+    }
+
+    @Test
+    void editRecipeImage() throws IOException {
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "file",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                new byte[1]
+        );
+
+        String editedRecipeImageName = recipeService.editRecipeImage(1L, file);
+        Recipe editedRecipe = recipeService.getRecipe(1L);
+
+        FileUploadUtil.deleteFile(appProperties.getDirectories().getRecipe(), editedRecipeImageName);
+
+        assertEquals(editedRecipe.getImage(), editedRecipeImageName);
     }
 }
