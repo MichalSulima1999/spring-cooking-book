@@ -271,7 +271,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                     const errorQuantity = getIn(errors, quantity);
 
                     return (
-                      <div key={p.id}>
+                      <div key={index}>
                         <Row>
                           <Col md={9}>
                             <Autocomplete
@@ -357,7 +357,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                     const errorStepNumber = getIn(errors, stepNumber);
 
                     return (
-                      <div key={p.id}>
+                      <div key={index}>
                         <Row>
                           <Col md={10}>
                             <Autocomplete
