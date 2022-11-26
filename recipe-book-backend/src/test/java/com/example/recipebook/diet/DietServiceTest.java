@@ -46,4 +46,10 @@ class DietServiceTest {
         assertEquals(2, dietService
                 .getLimitedDietsByName("veG").size(), "Should find 2 diets");
     }
+
+    @Test
+    void getAllDiets() {
+        assertEquals(6, dietService.getAllDiets().size(), "Should return all diets");
+        assertEquals("Keto", dietService.getAllDiets().get(0).getName(), "Diet names should match");
+    }
 }
