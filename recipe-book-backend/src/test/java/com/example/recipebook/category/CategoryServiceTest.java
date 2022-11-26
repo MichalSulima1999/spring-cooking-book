@@ -46,4 +46,10 @@ class CategoryServiceTest {
         assertEquals(1, categoryService
                 .getLimitedCategoriesByName("dINnEr").size(), "Should find 1 category");
     }
+
+    @Test
+    void getAllCategories() {
+        assertEquals(6, categoryService.getAllCategories().size(), "Should return all categories");
+        assertEquals("Breakfast", categoryService.getAllCategories().get(0).getName(), "Category names should match");
+    }
 }

@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsStringIgnoringCase;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -55,5 +54,22 @@ class CategoryControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", containsStringIgnoringCase("unch")))
                 .andExpect(jsonPath("$[1].name", containsStringIgnoringCase("unch")));
+    }
+
+    @Test
+    void getAllCategories() throws Exception {
+        mockMvc.perform(get("/api/category/all"))
+                // Validate the response code and content type
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                // Validate the returned fields
+                .andExpect(jsonPath("$", hasSize(6)))
+                .andExpect(jsonPath("$[0].name", is("Breakfast")))
+                .andExpect(jsonPath("$[1].name", is("Brunch")))
+                .andExpect(jsonPath("$[2].name", is("Dessert")))
+                .andExpect(jsonPath("$[3].name", is("Dinner")))
+                .andExpect(jsonPath("$[4].name", is("Lunch")))
+                .andExpect(jsonPath("$[5].name", is("Supper")));
     }
 }

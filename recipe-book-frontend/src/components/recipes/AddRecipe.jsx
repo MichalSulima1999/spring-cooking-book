@@ -30,7 +30,7 @@ const AddRecipe = () => {
     await axios
       .post(RECIPES_URL, recipe)
       .then((res) => {
-        navigate(`/recipes/${recipe.id}`);
+        navigate(`/recipes/${res.data.id}`);
       })
       .catch((err) => {
         console.log(err.response);
