@@ -5,6 +5,7 @@ import { imageValidation } from "./RecipeValidation";
 import { RECIPES_IMAGE_URL } from "../../api/urlConstants";
 import { Button } from "@mui/material";
 import { Form } from "react-bootstrap";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 const ChangeRecipeImage = ({ recipe, setRecipe }) => {
   const schema = imageValidation();
@@ -60,7 +61,9 @@ const ChangeRecipeImage = ({ recipe, setRecipe }) => {
               </Form.Control.Feedback>
             </Form.Group>
             <Button
-              variant="outlined"
+              startIcon={<AddAPhotoIcon />}
+              fullWidth
+              variant="contained"
               type="submit"
               disabled={errors.image || !values.image}
             >
