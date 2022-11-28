@@ -62,6 +62,7 @@ const EditRecipe = () => {
     await axios
       .put(`${RECIPES_URL}/${recipeId}`, recipe)
       .then((res) => {
+        res.data.recipeSteps.sort((a, b) => a.stepNumber - b.stepNumber);
         console.log(res.data);
         navigate(`/recipes/${recipeId}`, {
           state: {
