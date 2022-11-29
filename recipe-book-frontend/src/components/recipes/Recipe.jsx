@@ -46,14 +46,14 @@ const Recipe = () => {
   };
 
   return (
-    <Container className="bg-light rounded mt-3 shadow">
+    <Container className="rounded mt-3 shadow" style={{ backgroundColor: "#f0f2f0" }}>
       {loading ? (
         <p>Ładowanie</p>
       ) : (
         <>
           <Row className="mt-3">
             <Col md={4} className="mb-3">
-              <Image
+              <Image  style={{ marginBottom: "1rem" }}
                 fluid
                 rounded
                 src={
@@ -64,15 +64,15 @@ const Recipe = () => {
                 alt={`${recipe.name} photo`}
               />
               <ChangeRecipeImage recipe={recipe} setRecipe={setRecipe} />
-              <h1 className="bg-success bg-opacity-50 rounded p-2">
+              <h1 className="bg-opacity-50 rounded p-1" style={{ backgroundColor: "#4CAF50" }}>
                 {recipe.name}
               </h1>
-              <h3>{recipe.description}</h3>
-              <h3>Kategoria: {recipe.category.name}</h3>
-              <h3>Czas gotowania: {recipe.cookingMinutes} minut</h3>
-              <h3>Dieta: {recipe.diet.name}</h3>
-              <h3>Poziom trudności: {SKILL_MAP.get(recipe.skillLevel)}</h3>
-              <Button
+              <h4><i>{recipe.description}</i></h4>
+              <h4>Kategoria: <i>{recipe.category.name}</i></h4>
+              <h4>Czas gotowania: <i>{recipe.cookingMinutes} minut</i></h4>
+              <h4>Dieta: <i>{recipe.diet.name}</i></h4>
+              <h4 style={{ marginBottom: "1rem" }}>Poziom trudności: <i>{SKILL_MAP.get(recipe.skillLevel)}</i></h4>
+              <Button style={{ width: "100%" }}
                 variant="primary"
                 onClick={() =>
                   navigate(`/recipes/edit/${recipe.id}`, {
@@ -88,15 +88,15 @@ const Recipe = () => {
             <Col md={8} className="p-3">
               <h2 className="text-center">Składniki</h2>
               {recipe.recipeIngredients.map((ingredient, i) => (
-                <div key={i} className="d-flex justify-content-between">
+                <div key={i} className="d-flex justify-content-between" style={{ marginLeft: "5rem" ,width: "75%" }}>
                   <h4>{ingredient.ingredient.name}</h4>
-                  <h4>{ingredient.quantity}</h4>
+                  <h4>{ingredient.quantity} szt.</h4>
                 </div>
               ))}
 
-              <h2 className="text-center">Przygotowanie</h2>
+              <h2 className="text-center" style={{ marginTop: "2rem" }}>Przygotowanie</h2>
               {recipe.recipeSteps.map((step, i) => (
-                <div key={i}>
+                <div className="d-flex justify-content-left" key={i}>
                   <h4>{`${step.stepNumber}. ${step.step.description}`}.</h4>
                 </div>
               ))}
