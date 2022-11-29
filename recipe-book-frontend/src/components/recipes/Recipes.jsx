@@ -7,9 +7,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActions } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
 import RecipesSearch from "./RecipesSearch";
+import { plPL } from '@mui/material/locale';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme(plPL);
 
 const Recipes = () => {
   const navigate = useNavigate();
@@ -59,6 +63,7 @@ const Recipes = () => {
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <div className="p-3">
       {loading ? (
         <div>Ładowanie...</div>
@@ -79,7 +84,8 @@ const Recipes = () => {
                         className="mb-3 align-self-center"
                         key={i}
                       >
-                        <Card className="d-flex flex-column">
+                        <Card border="dark" className="d-flex flex-column">
+                        <CardActionArea onClick={() => navigate(`/recipes/${recipe.id}`)}>
                           <CardMedia
                             component="img"
                             height="200"
@@ -90,7 +96,6 @@ const Recipes = () => {
                             }
                             alt={recipe.name}
                           />
-
                           <CardContent>
                             <Typography
                               gutterBottom
@@ -102,26 +107,18 @@ const Recipes = () => {
                             <Typography variant="body2" color="text.secondary">
                               {recipe.description}
                             </Typography>
-                          </CardContent>
-                          <CardActions className="d-flex justify-content-between mt-auto mb-1">
-                            <Button
-                              size="small"
-                              onClick={() => navigate(`/recipes/${recipe.id}`)}
-                            >
-                              Szczegóły
-                            </Button>
-                            <Typography variant="body2" color="text.secondary">
-                              {recipe.cookingMinutes} minut
+                            <Typography variant="body2" color="text.secondary" style={{ marginTop: '1rem' }}>
+                             Czas przygotowania: {recipe.cookingMinutes} minut
                             </Typography>
-                          </CardActions>
+                          </CardContent>
+                          </CardActionArea>
                         </Card>
                       </Col>
                     ))}
                   </Row>
-                  <TablePagination
-                    className="m-3 bg-success bg-opacity-75 rounded"
+                  <TablePagination style={{ background: "#4CAF50" }}
+                    className="bg-opacity-75 rounded"
                     rowsPerPageOptions={[8, 12, 16]}
-                    labelRowsPerPage="Rekordy na stronę"
                     component="div"
                     count={numberOfElements}
                     rowsPerPage={rowsPerPage}
@@ -140,6 +137,7 @@ const Recipes = () => {
         </div>
       )}
     </div>
+    </ThemeProvider>
   );
 };
 
