@@ -134,7 +134,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
 
   return (
     <div className="text-start">
-      <Formik
+      <Formik style={{ marginTop: '1rem' }} 
         initialValues={init}
         enableReinitialize={true}
         onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}
@@ -149,7 +149,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
           errors,
         }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <TextField
+            <TextField style={{ marginBottom: '1rem', marginTop: '1rem' }}
               fullWidth
               variant="outlined"
               label="Nazwa przepisu"
@@ -161,7 +161,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <TextField
+            <TextField style={{ marginBottom: '1rem' }}
               fullWidth
               variant="outlined"
               label="Opis przepisu"
@@ -173,7 +173,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <TextField
+            <TextField style={{ marginBottom: '1rem' }}
               fullWidth
               variant="outlined"
               type="number"
@@ -186,7 +186,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <FormControl fullWidth>
+            <FormControl fullWidth style={{ marginBottom: '1rem' }}>
               <InputLabel id="skill-label">Poziom trudności</InputLabel>
               <Select
                 variant="outlined"
@@ -205,7 +205,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
               </Select>
               <FormHelperText>{errors.skillLevel}</FormHelperText>
             </FormControl>
-            <Autocomplete
+            <Autocomplete 
               freeSolo
               id="categoryName"
               disableClearable
@@ -213,7 +213,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
               value={values.categoryName}
               getItemValue={values.categoryName}
               renderInput={(params) => (
-                <TextField
+                <TextField style={{ marginBottom: '1rem' }}
                   {...params}
                   variant="outlined"
                   label="Kategoria"
@@ -237,7 +237,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
               value={values.dietName}
               getItemValue={values.dietName}
               renderInput={(params) => (
-                <TextField
+                <TextField style={{ marginBottom: '1rem' }}
                   {...params}
                   variant="outlined"
                   label="Dieta"
@@ -255,7 +255,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
             />
 
             <h1>Składniki:</h1>
-            <FieldArray name="ingredientQuantity">
+            <FieldArray name="ingredientQuantity" style={{ marginBottom: '1rem' }}>
               {({ push, remove }) => (
                 <div>
                   {values.ingredientQuantity.map((p, index) => {
@@ -282,7 +282,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                               getItemValue={p.ingredientName}
                               value={p.ingredientName}
                               renderInput={(params) => (
-                                <TextField
+                                <TextField style={{ marginBottom: '1rem' }}
                                   {...params}
                                   variant="outlined"
                                   label={`Składnik ${index + 1}`}
@@ -302,7 +302,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                             />
                           </Col>
                           <Col md={2}>
-                            <TextField
+                            <TextField style={{ marginBottom: '1rem' }}
                               variant="outlined"
                               label={`Ilość ${index + 1}`}
                               name={quantity}
@@ -315,7 +315,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                             />
                           </Col>
                           <Col md={1}>
-                            <Button
+                            <Button style={{ marginTop: '0.75rem' }}
                               margin="normal"
                               type="button"
                               color="secondary"
@@ -368,7 +368,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                               value={p.stepDescription}
                               getItemValue={p.stepDescription}
                               renderInput={(params) => (
-                                <TextField
+                                <TextField style={{ marginBottom: '1rem' }}
                                   {...params}
                                   variant="outlined"
                                   multiline
@@ -390,7 +390,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                             />
                           </Col>
                           <Col md={1}>
-                            <TextField
+                            <TextField style={{ marginBottom: '1rem' }}
                               variant="outlined"
                               disabled
                               name={stepNumber}
@@ -404,7 +404,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                             />
                           </Col>
                           <Col md={1}>
-                            <Button
+                            <Button style={{ marginTop: '0.75rem' }}
                               margin="normal"
                               type="button"
                               color="secondary"
@@ -433,7 +433,7 @@ const RecipeForm = ({ handleSubmit, initialValues }) => {
                 </div>
               )}
             </FieldArray>
-            <Button variant="outlined" color="success" type="submit">
+            <Button variant="contained" color="success" type="submit" style={{ marginTop: '1rem', marginBottom: '1rem' }} fullWidth>
               Zapisz przepis
             </Button>
           </Form>
