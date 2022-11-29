@@ -1,6 +1,7 @@
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import Pages from "./components/Pages";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

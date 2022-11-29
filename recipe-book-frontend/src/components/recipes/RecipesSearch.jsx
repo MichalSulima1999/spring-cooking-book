@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
+import { InputAdornment } from "@mui/material";
 import { Formik, Form } from "formik";
 import { RecipeSearchValidation } from "./RecipeValidation";
 import { CATEGORIES_URL, DIET_URL } from "../../api/urlConstants";
@@ -128,7 +129,7 @@ const RecipesSearch = ({ setSearchBody }) => {
           touched,
         }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <TextField
+            <TextField style={{ marginBottom: "1rem" }}
               fullWidth
               variant="outlined"
               label="Nazwa przepisu"
@@ -141,7 +142,7 @@ const RecipesSearch = ({ setSearchBody }) => {
             />
             <FormControl fullWidth>
               <InputLabel id="category-label">Kategoria</InputLabel>
-              <Select
+              <Select style={{ marginBottom: "1rem" }}
                 variant="outlined"
                 labelId="category-label"
                 label="Kategoria"
@@ -162,7 +163,7 @@ const RecipesSearch = ({ setSearchBody }) => {
             </FormControl>
             <FormControl fullWidth>
               <InputLabel id="diet-label">Dieta</InputLabel>
-              <Select
+              <Select style={{ marginBottom: "1rem" }}
                 variant="outlined"
                 labelId="diet-label"
                 label="Dieta"
@@ -183,7 +184,7 @@ const RecipesSearch = ({ setSearchBody }) => {
             </FormControl>
             <FormControl fullWidth>
               <InputLabel id="skill-label">Poziom trudności</InputLabel>
-              <Select
+              <Select style={{ marginBottom: "1rem" }}
                 variant="outlined"
                 labelId="skill-label"
                 label="Poziom trudności"
@@ -200,11 +201,12 @@ const RecipesSearch = ({ setSearchBody }) => {
               </Select>
               <FormHelperText>{errors.skillLevel}</FormHelperText>
             </FormControl>
-            <TextField
+            <TextField style={{ marginBottom: "1rem" }}
               fullWidth
               variant="outlined"
               label="Maksymalny czas gotowania"
               name="cookingMinutes"
+              endAdornment={<InputAdornment position="end">minut</InputAdornment>}
               value={values.cookingMinutes}
               error={Boolean(touched.cookingMinutes && errors.cookingMinutes)}
               helperText={errors.cookingMinutes}
@@ -213,7 +215,7 @@ const RecipesSearch = ({ setSearchBody }) => {
             />
             <FormControl fullWidth>
               <InputLabel id="sort-label">Sortuj po</InputLabel>
-              <Select
+              <Select style={{ marginBottom: "1rem" }}
                 variant="outlined"
                 labelId="sort-label"
                 label="Sortuj po"
@@ -242,7 +244,7 @@ const RecipesSearch = ({ setSearchBody }) => {
               </Select>
               <FormHelperText>{errors.sort}</FormHelperText>
             </FormControl>
-            <div className="d-grid gap-2 col-6 mx-auto">
+            <div className="d-grid gap-2 col-6 mx-auto" style={{ marginBottom: "1rem" }}>
               <Button variant="outlined" type="submit">
                 Wyszukaj
               </Button>
