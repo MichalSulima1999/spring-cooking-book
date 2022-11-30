@@ -52,4 +52,12 @@ class CategoryServiceTest {
         assertEquals(6, categoryService.getAllCategories().size(), "Should return all categories");
         assertEquals("Breakfast", categoryService.getAllCategories().get(0).getName(), "Category names should match");
     }
+
+    @Test
+    void addCategory() {
+        Category category = new Category("Test category");
+
+        Category addedCategory = categoryService.addCategory(category);
+        assertEquals(category.getName(), addedCategory.getName(), "Category names should match");
+    }
 }
