@@ -1,9 +1,7 @@
 package com.example.recipebook.category;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +14,13 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CategoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +43,16 @@ class CategoryControllerTest {
         categoryRepo.deleteAll();
     }
 
+    static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
+    @Order(1)
     void getLimitedCategoriesByDescription() throws Exception {
         mockMvc.perform(get("/api/category").param("name", "unch"))
                 // Validate the response code and content type
@@ -57,6 +66,7 @@ class CategoryControllerTest {
     }
 
     @Test
+    @Order(2)
     void getAllCategories() throws Exception {
         mockMvc.perform(get("/api/category/all"))
                 // Validate the response code and content type
@@ -71,5 +81,21 @@ class CategoryControllerTest {
                 .andExpect(jsonPath("$[3].name", is("Dinner")))
                 .andExpect(jsonPath("$[4].name", is("Lunch")))
                 .andExpect(jsonPath("$[5].name", is("Supper")));
+    }
+
+    @Test
+    @Order(3)
+    void addCategory() throws Exception {
+        Category category = new Category("Test category");
+
+        mockMvc.perform(post("/api/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(category)))
+
+                // Validate the response code and content type
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.name", is("Test category")));
     }
 }

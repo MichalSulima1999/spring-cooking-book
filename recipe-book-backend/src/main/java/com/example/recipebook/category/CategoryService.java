@@ -17,4 +17,8 @@ public class CategoryService {
     public List<Category> getLimitedCategoriesByName(String name) {
         return categoryRepo.findTop5ByNameContainsIgnoreCase(name);
     }
+
+    public Category addCategory(Category category) {
+        return categoryRepo.save(category);
+    }
 }
