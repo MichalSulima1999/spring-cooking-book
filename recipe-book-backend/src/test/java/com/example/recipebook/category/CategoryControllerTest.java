@@ -1,5 +1,6 @@
 package com.example.recipebook.category;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -41,6 +43,14 @@ class CategoryControllerTest {
     @AfterAll
     private void clearDb() {
         categoryRepo.deleteAll();
+    }
+
+    static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -71,5 +81,20 @@ class CategoryControllerTest {
                 .andExpect(jsonPath("$[3].name", is("Dinner")))
                 .andExpect(jsonPath("$[4].name", is("Lunch")))
                 .andExpect(jsonPath("$[5].name", is("Supper")));
+    }
+
+    @Test
+    void addCategory() throws Exception {
+        Category category = new Category("Test category");
+
+        mockMvc.perform(post("/api/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(category)))
+
+                // Validate the response code and content type
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.name", is("Test category")));
     }
 }
