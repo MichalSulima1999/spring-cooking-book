@@ -1,10 +1,7 @@
 package com.example.recipebook.category;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CategoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -54,6 +52,7 @@ class CategoryControllerTest {
     }
 
     @Test
+    @Order(1)
     void getLimitedCategoriesByDescription() throws Exception {
         mockMvc.perform(get("/api/category").param("name", "unch"))
                 // Validate the response code and content type
@@ -67,6 +66,7 @@ class CategoryControllerTest {
     }
 
     @Test
+    @Order(2)
     void getAllCategories() throws Exception {
         mockMvc.perform(get("/api/category/all"))
                 // Validate the response code and content type
@@ -84,6 +84,7 @@ class CategoryControllerTest {
     }
 
     @Test
+    @Order(3)
     void addCategory() throws Exception {
         Category category = new Category("Test category");
 
