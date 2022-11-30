@@ -59,5 +59,6 @@ class CategoryServiceTest {
 
         Category addedCategory = categoryService.addCategory(category);
         assertEquals(category.getName(), addedCategory.getName(), "Category names should match");
+        categoryRepo.delete(addedCategory);
     }
 }
