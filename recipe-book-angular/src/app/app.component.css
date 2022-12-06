@@ -1,0 +1,30 @@
+.app__container {
+  width: 100vw;
+  height: 100vh;
+  border: 1px solid #555;
+}
+
+.app__drawer {
+  padding: 0 1% 1% 1%;
+  text-align: center;
+  width: 15%;
+}
+
+.app__content {
+  width: 85%;
+  padding: 1rem;
+}
+
+.app__button_link {
+  width: 90%;
+}
+
+@media only screen and (max-width: 1280px) {
+  .app__drawer {
+    width: 30%;
+  }
+
+  .app__content {
+    width: 70%;
+  }
+}
