@@ -2,5 +2,15 @@
   "TITLE": "Recipe book",
   "MENU": "Main menu",
   "RECIPES": "Recipes",
-  "ADD_RECIPE": "Add recipe"
+  "ADD_RECIPE": "Add recipe",
+  "DIET": "Diet",
+  "CATEGORY": "Category",
+  "SKILL_LEVEL": "Skill level",
+  "EASY": "Easy",
+  "MEDIUM": "Medium",
+  "HARD": "Hard",
+  "PREPARE_TIME": "Prepare time",
+  "MINUTES" : "minutes",
+  "TO_RECIPE": "Go to recipe",
+  "ITEMS_PER_PAGE": "Items per page"
 }

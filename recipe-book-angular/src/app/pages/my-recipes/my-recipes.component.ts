@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/interfaces/Recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-my-recipes',
@@ -9,8 +10,9 @@ import { RecipeService } from 'src/app/services/recipe.service';
 })
 export class MyRecipesComponent implements OnInit {
   recipes: Recipe[] = [];
+  pageEvent!: PageEvent;
 
-  page = 1;
+  page = 0;
   count = 0;
   pageSize = 3;
   pageSizes: number[] = [3, 6, 9];
@@ -23,7 +25,7 @@ export class MyRecipesComponent implements OnInit {
 
   retrieveRecipes(): void {
     this.recipeService
-      .getRecipes(this.page - 1, this.pageSize)
+      .getRecipes(this.page, this.pageSize)
       .subscribe((recipes: any) => {
         this.recipes = recipes.content;
         this.count = recipes.totalElements;
@@ -35,9 +37,11 @@ export class MyRecipesComponent implements OnInit {
     this.retrieveRecipes();
   }
 
-  handlePageSizeChange(event: any): void {
-    this.pageSize = event.target.value;
-    this.page = 1;
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.count = e.length;
+    this.pageSize = e.pageSize;
+    this.page = e.pageIndex;
     this.retrieveRecipes();
   }
 }

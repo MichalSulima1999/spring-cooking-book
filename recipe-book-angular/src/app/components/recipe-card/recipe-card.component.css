@@ -1,0 +1,14 @@
+.recipe-card__image {
+  max-width: 100%;
+  height: auto;
+}
+
+.recipe-card__container {
+  max-width: 400px;
+}
+
+@media (max-width: 800px) {
+  .recipe-card__container {
+    max-width: 75%;
+  }
+}

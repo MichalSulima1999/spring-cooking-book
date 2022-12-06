@@ -14,13 +14,6 @@ export class RecipeService {
 
   getRecipes(page: number, size: number): Observable<any> {
     let params = new HttpParams().set('pageNum', page).set('pageSize', size);
-    console.log(
-      this.http
-        .get(`${API_URL}/${this.recipeUrl}`, { params })
-        .subscribe((data: any) => {
-          console.log(data);
-        })
-    );
 
     return this.http.get<any>(`${API_URL}/${this.recipeUrl}`, { params });
   }

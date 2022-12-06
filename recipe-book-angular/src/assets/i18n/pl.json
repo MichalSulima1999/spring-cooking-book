@@ -2,5 +2,15 @@
   "TITLE": "Książka kucharska",
   "MENU": "Menu główne",
   "RECIPES": "Przepisy",
-  "ADD_RECIPE": "Dodaj przepis"
+  "ADD_RECIPE": "Dodaj przepis",
+  "DIET": "Dieta",
+  "CATEGORY": "Kategoria",
+  "SKILL_LEVEL": "Trudność",
+  "EASY": "Łatwy",
+  "MEDIUM": "Średni",
+  "HARD": "Trudny",
+  "PREPARE_TIME": "Czas przygotowania",
+  "MINUTES" : "minut",
+  "TO_RECIPE": "Przejdź do przepisu",
+  "ITEMS_PER_PAGE": "Przepisy na stronę"
 }

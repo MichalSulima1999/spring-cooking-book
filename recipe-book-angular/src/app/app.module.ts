@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -17,6 +19,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MainMenuComponent } from './pages/main-menu/main-menu.component';
 import { MyRecipesComponent } from './pages/my-recipes/my-recipes.component';
 import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
+import { RecipeCardComponent } from './components/recipe-card/recipe-card.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
     MainMenuComponent,
     MyRecipesComponent,
     AddRecipeComponent,
+    RecipeCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +41,8 @@ import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
     MatMenuModule,
     HttpClientModule,
     NgxPaginationModule,
+    MatCardModule,
+    MatPaginatorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
