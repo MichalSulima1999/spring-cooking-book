@@ -12,5 +12,17 @@
   "PREPARE_TIME": "Czas przygotowania",
   "MINUTES" : "minut",
   "TO_RECIPE": "Przejdź do przepisu",
-  "ITEMS_PER_PAGE": "Przepisy na stronę"
+  "ITEMS_PER_PAGE": "Przepisy na stronę",
+  "NAME": "Nazwa",
+  "DESCRIPTION": "Opis",
+  "COOKING_TIME": "Czas gotowania (minuty)",
+  "INGREDIENT_NAME": "Nazwa składnika",
+  "QUANTITY": "Ilość",
+  "STEP": "Krok",
+  "SUBMIT": "Wyślij",
+  "LOADING": "Ładowanie...",
+  "COOKING_TIME_ERROR": "Czas gotowania powinien być liczbą większą od 0",
+  "STEPS": "Kroki",
+  "INGREDIENTS": "Składniki",
+  "ADDED_RECIPE": "Dodano przepis"
 }

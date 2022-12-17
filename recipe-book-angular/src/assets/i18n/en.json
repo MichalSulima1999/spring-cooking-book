@@ -12,5 +12,17 @@
   "PREPARE_TIME": "Prepare time",
   "MINUTES" : "minutes",
   "TO_RECIPE": "Go to recipe",
-  "ITEMS_PER_PAGE": "Items per page"
+  "ITEMS_PER_PAGE": "Items per page",
+  "NAME": "Name",
+  "DESCRIPTION": "Description",
+  "COOKING_TIME": "Cooking time (minutes)",
+  "INGREDIENT_NAME": "Ingredient name",
+  "QUANTITY": "Quantity",
+  "STEP": "Step",
+  "SUBMIT": "Submit",
+  "LOADING": "Loading...",
+  "COOKING_TIME_ERROR": "Cooking time should be a number greater than 0",
+  "STEPS": "Steps",
+  "INGREDIENTS": "Ingredients",
+  "ADDED_RECIPE": "Recipe added"
 }

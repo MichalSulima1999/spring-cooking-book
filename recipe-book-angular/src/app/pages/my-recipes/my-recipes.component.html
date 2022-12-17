@@ -1,4 +1,4 @@
-<div class="list row">
+<div>
   <h1>{{"RECIPES" | translate}}</h1>
   <div class="my-recipes__recipes_container">
     <app-recipe-card *ngFor="
@@ -13,8 +13,8 @@
       " [recipe]="recipe"></app-recipe-card>
   </div>
 
-  <div class="mt-3">
-    <mat-paginator #paginator class="demo-paginator" (page)="handlePageEvent($event)" [length]="count"
+  <div class="my-recipes__paginator_container">
+    <mat-paginator #paginator class="my-recipes__paginator" (page)="handlePageEvent($event)" [length]="count"
       [pageSize]="pageSize" [pageSizeOptions]="pageSizes" [pageIndex]="page" aria-label="Select page">
     </mat-paginator>
   </div>

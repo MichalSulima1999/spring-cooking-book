@@ -8,8 +8,15 @@
   margin: 1rem;
 }
 
-.demo-paginator {
-  max-width: 75%;
+.my-recipes__paginator {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.my-recipes__paginator_container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (max-width: 800px) {
