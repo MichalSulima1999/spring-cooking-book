@@ -24,5 +24,7 @@
   "COOKING_TIME_ERROR": "Czas gotowania powinien być liczbą większą od 0",
   "STEPS": "Kroki",
   "INGREDIENTS": "Składniki",
-  "ADDED_RECIPE": "Dodano przepis"
+  "ADDED_RECIPE": "Dodano przepis",
+  "PREP_TIME": "Czas przygotowania",
+  "EDIT": "Edytuj"
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Recipe } from '../interfaces/Recipe';
 import { RecipeToAdd } from '../interfaces/RecipeToAdd';
 import { API_URL } from '../constants/api-constants';
+import { RecipeDetails } from '../interfaces/RecipeDetails';
+import { RecipeStep } from '../interfaces/RecipeStep';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -25,8 +26,21 @@ export class RecipeService {
     return this.http.get<any>(`${API_URL}/${this.recipeUrl}`, { params });
   }
 
-  addRecipe(recipe: RecipeToAdd): Observable<Recipe> {
-    return this.http.post<Recipe>(
+  getRecipe(recipeId: number): Observable<RecipeDetails> {
+    return this.http
+      .get<RecipeDetails>(`${API_URL}/${this.recipeUrl}/${recipeId}`)
+      .pipe(
+        map((recipe) => {
+          recipe.recipeSteps.sort(
+            (a: RecipeStep, b: RecipeStep) => a.stepNumber - b.stepNumber
+          );
+          return recipe;
+        })
+      );
+  }
+
+  addRecipe(recipe: RecipeToAdd): Observable<RecipeDetails> {
+    return this.http.post<RecipeDetails>(
       `${API_URL}/${this.recipeUrl}`,
       recipe,
       httpOptions

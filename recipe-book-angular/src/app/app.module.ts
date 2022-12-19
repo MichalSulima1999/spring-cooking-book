@@ -16,6 +16,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MaterialExampleModule } from './material.module';
 import { RecipeAddedSnackbarComponent } from './components/recipe-added-snackbar/recipe-added-snackbar.component';
+import { RecipeComponent } from './pages/recipe/recipe.component';
+import { RecipeStepComponent } from './components/recipe-step/recipe-step.component';
+import { RecipeIngredientsComponent } from './components/recipe-ingredients/recipe-ingredients.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { RecipeAddedSnackbarComponent } from './components/recipe-added-snackbar
     AddRecipeComponent,
     RecipeCardComponent,
     RecipeAddedSnackbarComponent,
+    RecipeComponent,
+    RecipeStepComponent,
+    RecipeIngredientsComponent,
   ],
   imports: [
     BrowserModule,

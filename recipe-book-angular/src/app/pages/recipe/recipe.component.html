@@ -1,0 +1,61 @@
+<div
+  *ngIf="!isLoading"
+  class="container mx-auto shadow p-3 flex flex-col items-center border rounded recipe__w-children-full"
+>
+  <h1
+    class="text-2xl font-semibold mb-3 text-center border-b-2 border-indigo-300"
+  >
+    {{ recipe.name }}
+  </h1>
+  <h2 class="text-xl mb-3 text-center border-b border-indigo-300">
+    {{ recipe.description }}
+  </h2>
+  <img class="object-scale-down h-48 w-96 mb-3" [src]="getRecipePath()" />
+  <div class="grid grid-cols-2 gap-4 mb-3 w-96 rounded border p-3">
+    <div>
+      <h3 class="text-lg font-medium">{{ "PREP_TIME" | translate }}</h3>
+      <h4>{{ recipe.cookingMinutes }} minutes</h4>
+    </div>
+    <div>
+      <h3 class="text-lg font-medium">{{ "CATEGORY" | translate }}</h3>
+      <h4>{{ recipe.category.name }}</h4>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-medium">{{ "DIET" | translate }}</h3>
+      <h4>{{ recipe.diet.name }}</h4>
+    </div>
+    <div>
+      <h3 class="text-lg font-medium">{{ "SKILL_LEVEL" | translate }}</h3>
+      <h4>{{ recipe.skillLevel | translate }}</h4>
+    </div>
+  </div>
+  <div class="w-96 border rounded p-3 mb-3">
+    <h3 class="text-xl font-semibold mb-3 text-center">
+      {{ "INGREDIENTS" | translate }}
+    </h3>
+    <ul>
+      <app-recipe-ingredients
+        *ngFor="let ingredient of recipe.recipeIngredients; let i = index"
+        [ingredient]="ingredient"
+      >
+      </app-recipe-ingredients>
+    </ul>
+  </div>
+
+  <div class="w-96 border rounded p-3 mb-3">
+    <h3 class="text-xl font-semibold mb-3 text-center">
+      {{ "STEPS" | translate }}
+    </h3>
+    <ol class="space-y-1 max-w-md list-decimal list-inside">
+      <app-recipe-step
+        *ngFor="let step of recipe.recipeSteps; let i = index"
+        [step]="step"
+      >
+      </app-recipe-step>
+    </ol>
+  </div>
+  <a routerLink="/recipe/edit/{{ recipe.id }}" mat-button>{{
+    "EDIT" | translate
+  }}</a>
+</div>
