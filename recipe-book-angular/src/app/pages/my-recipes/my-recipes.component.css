@@ -1,0 +1,26 @@
+.my-recipes__recipes_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap
+}
+
+.my-recipes__recipes_container app-recipe-card {
+  margin: 1rem;
+}
+
+.my-recipes__paginator {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.my-recipes__paginator_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: 800px) {
+  .my-recipes__recipes_container {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,26 @@
+<mat-card class="recipe-card__container">
+  <mat-card-header>
+    <div mat-card-avatar class="recipe-card__image"></div>
+    <mat-card-title>{{ recipe.name }}</mat-card-title>
+    <mat-card-subtitle>{{ recipe.category.name }}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="getRecipePath()" [alt]="recipe.name" />
+  <mat-card-content>
+    <h3>
+      {{ recipe.description }}
+    </h3>
+    <h5>{{ "DIET" | translate }}: {{ recipe.diet.name }}</h5>
+    <h5>
+      {{ "SKILL_LEVEL" | translate }}: {{ recipe.skillLevel | translate }}
+    </h5>
+    <h5>
+      {{ "PREPARE_TIME" | translate }}: {{ recipe.cookingMinutes }}
+      {{ "MINUTES" | translate }}
+    </h5>
+  </mat-card-content>
+  <mat-card-actions>
+    <a routerLink="/recipe/{{ recipe.id }}" mat-button>{{
+      "TO_RECIPE" | translate
+    }}</a>
+  </mat-card-actions>
+</mat-card>

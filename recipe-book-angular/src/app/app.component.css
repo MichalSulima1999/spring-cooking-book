@@ -1,0 +1,31 @@
+.app__container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.app__drawer_container {
+  flex: 1;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.app__drawer {
+  padding: 1% 1% 1% 1%;
+  text-align: center;
+  min-width: 15%;
+}
+
+.app__content {
+  padding: 1rem;
+}
+
+.app__button_link {
+  width: 90%;
+}
