@@ -55,7 +55,10 @@
       </app-recipe-step>
     </ol>
   </div>
-  <a routerLink="/recipe/edit/{{ recipe.id }}" mat-button>{{
-    "EDIT" | translate
-  }}</a>
+  <a
+    routerLink="/recipe/edit/{{ recipe.id }}"
+    [state]="{ data: recipe }"
+    mat-button
+    >{{ "EDIT" | translate }}</a
+  >
 </div>

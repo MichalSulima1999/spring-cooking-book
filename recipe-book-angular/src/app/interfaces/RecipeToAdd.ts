@@ -1,5 +1,6 @@
 export interface RecipeToAdd {
   recipe: {
+    id?: number;
     name: string;
     description: string;
     cookingMinutes: number;
@@ -11,16 +12,12 @@ export interface RecipeToAdd {
   diet: {
     name: string;
   };
-  ingredientQuantityDtos: [
-    {
-      ingredientName: string;
-      quantity: string;
-    }
-  ];
-  stepNumberDtos: [
-    {
-      stepDescription: string;
-      stepNumber: number;
-    }
-  ];
+  ingredientQuantityDtos: {
+    ingredientName: string;
+    quantity: string;
+  }[];
+  stepNumberDtos: {
+    stepDescription: string;
+    stepNumber: number;
+  }[];
 }

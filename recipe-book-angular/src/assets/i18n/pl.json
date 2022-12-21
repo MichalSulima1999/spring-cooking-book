@@ -25,6 +25,8 @@
   "STEPS": "Kroki",
   "INGREDIENTS": "Składniki",
   "ADDED_RECIPE": "Dodano przepis",
+  "RECIPE_EDITED": "Edytowano przepis",
   "PREP_TIME": "Czas przygotowania",
-  "EDIT": "Edytuj"
+  "EDIT": "Edytuj",
+  "EDIT_RECIPE": "Edytuj przepis"
 }

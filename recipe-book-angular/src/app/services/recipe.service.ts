@@ -46,4 +46,12 @@ export class RecipeService {
       httpOptions
     );
   }
+
+  editRecipe(recipe: RecipeToAdd): Observable<RecipeDetails> {
+    return this.http.put<RecipeDetails>(
+      `${API_URL}/${this.recipeUrl}/${recipe.recipe.id}`,
+      recipe,
+      httpOptions
+    );
+  }
 }

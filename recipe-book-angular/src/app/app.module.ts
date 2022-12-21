@@ -19,6 +19,8 @@ import { RecipeAddedSnackbarComponent } from './components/recipe-added-snackbar
 import { RecipeComponent } from './pages/recipe/recipe.component';
 import { RecipeStepComponent } from './components/recipe-step/recipe-step.component';
 import { RecipeIngredientsComponent } from './components/recipe-ingredients/recipe-ingredients.component';
+import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
+import { EditRecipeComponent } from './pages/edit-recipe/edit-recipe.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { RecipeIngredientsComponent } from './components/recipe-ingredients/reci
     RecipeComponent,
     RecipeStepComponent,
     RecipeIngredientsComponent,
+    RecipeFormComponent,
+    EditRecipeComponent,
   ],
   imports: [
     BrowserModule,
