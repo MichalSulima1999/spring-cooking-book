@@ -1,0 +1,29 @@
+<div class="app__container">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">Responsive App</h1>
+  </mat-toolbar>
+  <mat-drawer-container class="app__drawer_container">
+    <mat-drawer #snav mode="side" class="app__drawer">
+      <a mat-raised-button routerLink="/" class="app__button_link" color="{{ hasRoute('/') ? 'primary' : '' }}">{{
+        "MENU" | translate }}</a>
+      <a mat-raised-button routerLink="/recipes" class="app__button_link"
+        color="{{ hasRoute('/recipes') ? 'primary' : '' }}">{{ "RECIPES" | translate }}</a>
+      <a mat-raised-button routerLink="/add-recipe" class="app__button_link"
+        color="{{ hasRoute('/add-recipe') ? 'primary' : '' }}">{{ "ADD_RECIPE" | translate }}</a>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>language</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let language of languages" (click)="languageChange(language)">
+          <span>{{ language.label }}</span>
+        </button>
+      </mat-menu>
+    </mat-drawer>
+    <mat-drawer-content class="app__content">
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

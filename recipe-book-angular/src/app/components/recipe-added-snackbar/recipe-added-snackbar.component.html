@@ -1,0 +1,6 @@
+<div class="flex justify-around items-center">
+  <p>{{ data.text | translate }}</p>
+  <a mat-button routerLink="/recipe/{{ data.recipeId }}"
+    ><span class="text-zinc-50">{{ "TO_RECIPE" | translate }}</span></a
+  >
+</div>

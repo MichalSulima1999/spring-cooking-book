@@ -5,7 +5,7 @@ import { imageValidation } from "./RecipeValidation";
 import { RECIPES_IMAGE_URL } from "../../api/urlConstants";
 import { Button } from "@mui/material";
 import { Form } from "react-bootstrap";
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
 const ChangeRecipeImage = ({ recipe, setRecipe }) => {
   const schema = imageValidation();
