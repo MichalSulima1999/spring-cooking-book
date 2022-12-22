@@ -19,4 +19,8 @@ export class CategoryService {
       params,
     });
   }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${API_URL}/${this.categoryUrl}/all`);
+  }
 }

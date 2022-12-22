@@ -5,6 +5,7 @@ import { RecipeToAdd } from '../interfaces/RecipeToAdd';
 import { API_URL } from '../constants/api-constants';
 import { RecipeDetails } from '../interfaces/RecipeDetails';
 import { RecipeStep } from '../interfaces/RecipeStep';
+import { Search } from '../interfaces/Search';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -53,5 +54,14 @@ export class RecipeService {
       recipe,
       httpOptions
     );
+  }
+
+  searchRecipes(page: number, size: number, search: Search): Observable<any> {
+    let params = new HttpParams().set('pageNum', page).set('pageSize', size);
+
+    return this.http.post<any>(`${API_URL}/${this.recipeUrl}/search`, search, {
+      headers: httpOptions.headers,
+      params: params,
+    });
   }
 }

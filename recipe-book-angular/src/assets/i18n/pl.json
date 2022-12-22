@@ -28,5 +28,13 @@
   "RECIPE_EDITED": "Edytowano przepis",
   "PREP_TIME": "Czas przygotowania",
   "EDIT": "Edytuj",
-  "EDIT_RECIPE": "Edytuj przepis"
+  "EDIT_RECIPE": "Edytuj przepis",
+  "NEWEST_RECIPES": "Najnowsze przepisy",
+  "MAX_COOKING_TIME": "Maksymalny czas gotowania (minuty)",
+  "ORDER_BY": "Sortuj po",
+  "SORTING_ORDER": "Kierunek sortowania",
+  "ASC": "Rosnąco",
+  "DESC": "Malejąco",
+  "ALL": "Wszystko",
+  "SEARCH": "Wyszukaj przepisy"
 }
