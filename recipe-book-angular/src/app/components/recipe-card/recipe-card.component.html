@@ -1,10 +1,15 @@
 <mat-card class="recipe-card__container">
-  <mat-card-header>
+  <mat-card-header class="mb-3">
     <div mat-card-avatar class="recipe-card__image"></div>
     <mat-card-title>{{ recipe.name }}</mat-card-title>
     <mat-card-subtitle>{{ recipe.category.name }}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image [src]="getRecipePath()" [alt]="recipe.name" />
+  <img
+    mat-card-image
+    [src]="getRecipePath()"
+    [alt]="recipe.name"
+    class="p-2 pb-3"
+  />
   <mat-card-content>
     <h3>
       {{ recipe.description }}
