@@ -1,5 +1,21 @@
 <div>
-  <h1 class="text-2xl font-semibold mb-3">{{ "RECIPES" | translate }}</h1>
+  <h1
+    class="text-white text-2xl font-semibold mb-3 text-center bg-indigo-600 p-3 rounded"
+  >
+    {{ "RECIPES" | translate }}
+  </h1>
+  <mat-accordion>
+    <mat-expansion-panel hideSearchToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ "SEARCH" | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-recipe-search
+        (onRetrieveRecipes)="retrieveRecipes($event)"
+      ></app-recipe-search>
+    </mat-expansion-panel>
+  </mat-accordion>
   <div class="my-recipes__recipes_container">
     <app-recipe-card
       *ngFor="

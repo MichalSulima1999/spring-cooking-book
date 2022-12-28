@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/interfaces/Recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Search } from 'src/app/interfaces/Search';
+import { RecipePage } from 'src/app/interfaces/RecipePage';
 
 @Component({
   selector: 'app-my-recipes',
@@ -16,25 +18,33 @@ export class MyRecipesComponent implements OnInit {
   count = 0;
   pageSize = 3;
   pageSizes: number[] = [3, 6, 9];
+  search: Search = {
+    dataOption: 'all',
+    orderByField: 'name',
+    orderByAscending: true,
+  };
 
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {
-    this.retrieveRecipes();
+    this.retrieveRecipes(this.search);
   }
 
-  retrieveRecipes(): void {
+  retrieveRecipes(search: Search): void {
+    console.log(search);
+
+    this.search = search;
     this.recipeService
-      .getRecipes(this.page, this.pageSize)
-      .subscribe((recipes: any) => {
-        this.recipes = recipes.content;
-        this.count = recipes.totalElements;
+      .searchRecipes(this.page, this.pageSize, search)
+      .subscribe((recipePage: RecipePage) => {
+        this.recipes = recipePage.content;
+        this.count = recipePage.totalElements;
       });
   }
 
   handlePageChange(event: number): void {
     this.page = event;
-    this.retrieveRecipes();
+    this.retrieveRecipes(this.search);
   }
 
   handlePageEvent(e: PageEvent) {
@@ -42,6 +52,6 @@ export class MyRecipesComponent implements OnInit {
     this.count = e.length;
     this.pageSize = e.pageSize;
     this.page = e.pageIndex;
-    this.retrieveRecipes();
+    this.retrieveRecipes(this.search);
   }
 }

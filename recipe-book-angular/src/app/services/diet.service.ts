@@ -19,4 +19,8 @@ export class DietService {
       params,
     });
   }
+
+  getDiets(): Observable<Diet[]> {
+    return this.http.get<Diet[]>(`${API_URL}/${this.dietUrl}/all`);
+  }
 }

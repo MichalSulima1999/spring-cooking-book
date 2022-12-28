@@ -43,7 +43,7 @@ public record RecipeController(RecipeService recipeService, AppProperties appPro
                                                       @RequestParam(name = "pageSize",
                                                               defaultValue = "10") int pageSize) {
         Pageable page = PageRequest.of(pageNum, pageSize,
-                Sort.by("name").ascending());
+                Sort.by("id").descending());
         return ResponseEntity.ok().body(recipeService.getRecipePage(page));
     }
 

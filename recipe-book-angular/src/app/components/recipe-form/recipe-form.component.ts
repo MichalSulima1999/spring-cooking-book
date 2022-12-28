@@ -72,22 +72,22 @@ export class RecipeFormComponent {
     stepNumberDtos: [{ stepDescription: '', stepNumber: 1 }],
   };
 
-  filteredIngredients!: any;
+  filteredIngredients!: string[];
   minIngredientNameLengthSearch: number = 3;
   ingredientSearchError: string = '';
   ingredientSearchLoading: boolean = true;
 
-  filteredSteps!: any;
+  filteredSteps!: string[];
   minStepDescriptionLengthSearch: number = 5;
   stepSearchError: string = '';
   stepSearchLoading: boolean = true;
 
-  filteredCategories!: any;
+  filteredCategories!: string[];
   minCategoryDescriptionLengthSearch: number = 3;
   categorySearchError: string = '';
   categorySearchLoading: boolean = true;
 
-  filteredDiets!: any;
+  filteredDiets!: string[];
   minDietDescriptionLengthSearch: number = 3;
   dietSearchError: string = '';
   dietSearchLoading: boolean = true;
@@ -103,58 +103,8 @@ export class RecipeFormComponent {
   ) {}
 
   ngOnInit() {
-    this.category.controls['name'].valueChanges
-      .pipe(
-        filter((res) => {
-          return (
-            res !== null &&
-            res.length >= this.minCategoryDescriptionLengthSearch
-          );
-        }),
-        distinctUntilChanged(),
-        debounceTime(1000),
-        tap(() => {
-          this.categorySearchError = '';
-          this.filteredCategories = [];
-          this.categorySearchLoading = true;
-        }),
-        switchMap((value) =>
-          this.categoryService.getCategoryHints(value!).pipe(
-            finalize(() => {
-              this.categorySearchLoading = false;
-            })
-          )
-        )
-      )
-      .subscribe((data: Category[]) => {
-        this.filteredCategories = data.map((category) => category.name);
-      });
-
-    this.diet.controls['name'].valueChanges
-      .pipe(
-        filter((res) => {
-          return (
-            res !== null && res.length >= this.minDietDescriptionLengthSearch
-          );
-        }),
-        distinctUntilChanged(),
-        debounceTime(1000),
-        tap(() => {
-          this.dietSearchError = '';
-          this.filteredDiets = [];
-          this.dietSearchLoading = true;
-        }),
-        switchMap((value) =>
-          this.dietService.getDietHints(value!).pipe(
-            finalize(() => {
-              this.dietSearchLoading = false;
-            })
-          )
-        )
-      )
-      .subscribe((data: Diet[]) => {
-        this.filteredDiets = data.map((diet) => diet.name);
-      });
+    this.activateCategorySearch();
+    this.activateDietSearch();
 
     if (this.isEdit) {
       for (
@@ -201,6 +151,63 @@ export class RecipeFormComponent {
 
   get ingredientQuantityDtos() {
     return this.recipeForm.controls['ingredientQuantityDtos'] as FormArray;
+  }
+
+  activateDietSearch() {
+    this.diet.controls['name'].valueChanges
+      .pipe(
+        filter((res) => {
+          return (
+            res !== null && res.length >= this.minDietDescriptionLengthSearch
+          );
+        }),
+        distinctUntilChanged(),
+        debounceTime(1000),
+        tap(() => {
+          this.dietSearchError = '';
+          this.filteredDiets = [];
+          this.dietSearchLoading = true;
+        }),
+        switchMap((value) =>
+          this.dietService.getDietHints(value!).pipe(
+            finalize(() => {
+              this.dietSearchLoading = false;
+            })
+          )
+        )
+      )
+      .subscribe((data: Diet[]) => {
+        this.filteredDiets = data.map((diet) => diet.name);
+      });
+  }
+
+  activateCategorySearch() {
+    this.category.controls['name'].valueChanges
+      .pipe(
+        filter((res) => {
+          return (
+            res !== null &&
+            res.length >= this.minCategoryDescriptionLengthSearch
+          );
+        }),
+        distinctUntilChanged(),
+        debounceTime(1000),
+        tap(() => {
+          this.categorySearchError = '';
+          this.filteredCategories = [];
+          this.categorySearchLoading = true;
+        }),
+        switchMap((value) =>
+          this.categoryService.getCategoryHints(value!).pipe(
+            finalize(() => {
+              this.categorySearchLoading = false;
+            })
+          )
+        )
+      )
+      .subscribe((data: Category[]) => {
+        this.filteredCategories = data.map((category) => category.name);
+      });
   }
 
   addIngredientQuantityDto() {

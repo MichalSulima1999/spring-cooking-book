@@ -1,0 +1,92 @@
+<form
+  [formGroup]="searchForm"
+  (ngSubmit)="onSubmit()"
+  class="flex flex-col items-center w-full"
+>
+  <div class="w-full">
+    <div>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ "NAME" | translate }}</mat-label>
+        <input matInput formControlName="name" name="name" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ "CATEGORY" | translate }}</mat-label>
+        <mat-select formControlName="category" placeholder="Category">
+          <mat-option value="">{{ "ALL" | translate }}</mat-option>
+          <mat-option
+            *ngFor="let category of categories"
+            [value]="category.name"
+            ><p>{{ category.name }}</p></mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ "DIET" | translate }}</mat-label>
+        <mat-select formControlName="diet" placeholder="Diet">
+          <mat-option value="">{{ "ALL" | translate }}</mat-option>
+          <mat-option *ngFor="let diet of diets" [value]="diet.name"
+            ><p>{{ diet.name }}</p></mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ "SKILL_LEVEL" | translate }}</mat-label>
+        <mat-select formControlName="skillLevel" placeholder="Skill level">
+          <mat-option value="">{{ "ALL" | translate }}</mat-option>
+          <mat-option value="EASY">{{ "EASY" | translate }}</mat-option>
+          <mat-option value="MEDIUM">{{ "MEDIUM" | translate }}</mat-option>
+          <mat-option value="HARD">{{ "HARD" | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>{{ "MAX_COOKING_TIME" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="maxCookingMinutes"
+          name="maxCookingMinutes"
+        />
+      </mat-form-field>
+    </div>
+    <div formGroupName="sort">
+      <div>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>{{ "ORDER_BY" | translate }}</mat-label>
+          <mat-select formControlName="orderByField" placeholder="Order by">
+            <mat-option value="{{ orderByFields.at(1) }}">{{
+              "COOKING_TIME" | translate
+            }}</mat-option>
+            <mat-option value="{{ orderByFields.at(0) }}">{{
+              "NAME" | translate
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>{{ "SORTING_ORDER" | translate }}</mat-label>
+          <mat-select formControlName="sortingOrder" placeholder="Sort">
+            <mat-option value="{{ sortingOrders.at(0) }}">{{
+              "ASC" | translate
+            }}</mat-option>
+            <mat-option value="{{ sortingOrders.at(1) }}">{{
+              "DESC" | translate
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="flex m-3">
+    <button mat-stroked-button class="m-auto" color="primary" type="submit">
+      {{ "SUBMIT" | translate }}<mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</form>

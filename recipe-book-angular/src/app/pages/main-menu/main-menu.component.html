@@ -1,1 +1,22 @@
-<p>main-menu works!</p>
+<div class="container mx-auto">
+  <h1
+    class="text-white text-2xl font-semibold mb-3 text-center bg-indigo-600 p-3 rounded"
+  >
+    {{ "NEWEST_RECIPES" | translate }}
+  </h1>
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <app-recipe-card
+      *ngFor="
+        let recipe of recipes
+          | paginate
+            : {
+                itemsPerPage: pageSize,
+                currentPage: page,
+                totalItems: count
+              };
+        let i = index
+      "
+      [recipe]="recipe"
+    ></app-recipe-card>
+  </div>
+</div>

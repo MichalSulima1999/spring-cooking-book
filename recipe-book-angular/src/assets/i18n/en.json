@@ -28,5 +28,13 @@
   "RECIPE_EDITED": "Recipe edited",
   "PREP_TIME": "Prep time",
   "EDIT": "Edit",
-  "EDIT_RECIPE": "Edit recipe"
+  "EDIT_RECIPE": "Edit recipe",
+  "NEWEST_RECIPES": "Newest recipes",
+  "MAX_COOKING_TIME": "Max cooking time (minutes)",
+  "ORDER_BY": "Order by",
+  "SORTING_ORDER": "Sorting order",
+  "ASC": "Ascending",
+  "DESC": "Descending",
+  "ALL": "All",
+  "SEARCH": "Search for recipes"
 }
