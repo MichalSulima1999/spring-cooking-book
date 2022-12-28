@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/interfaces/Recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { PageEvent } from '@angular/material/paginator';
+import { RecipePage } from 'src/app/interfaces/RecipePage';
 
 @Component({
   selector: 'app-main-menu',
@@ -25,9 +26,9 @@ export class MainMenuComponent implements OnInit {
   retrieveRecipes(): void {
     this.recipeService
       .getRecipes(this.page, this.pageSize)
-      .subscribe((recipes: any) => {
-        this.recipes = recipes.content;
-        this.count = recipes.totalElements;
+      .subscribe((recipePage: RecipePage) => {
+        this.recipes = recipePage.content;
+        this.count = recipePage.totalElements;
       });
   }
 }
