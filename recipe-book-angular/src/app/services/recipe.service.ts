@@ -6,6 +6,7 @@ import { API_URL } from '../constants/api-constants';
 import { RecipeDetails } from '../interfaces/RecipeDetails';
 import { RecipeStep } from '../interfaces/RecipeStep';
 import { Search } from '../interfaces/Search';
+import { RecipePage } from '../interfaces/RecipePage';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -21,10 +22,12 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  getRecipes(page: number, size: number): Observable<any> {
+  getRecipes(page: number, size: number): Observable<RecipePage> {
     let params = new HttpParams().set('pageNum', page).set('pageSize', size);
 
-    return this.http.get<any>(`${API_URL}/${this.recipeUrl}`, { params });
+    return this.http.get<RecipePage>(`${API_URL}/${this.recipeUrl}`, {
+      params,
+    });
   }
 
   getRecipe(recipeId: number): Observable<RecipeDetails> {
@@ -56,12 +59,20 @@ export class RecipeService {
     );
   }
 
-  searchRecipes(page: number, size: number, search: Search): Observable<any> {
+  searchRecipes(
+    page: number,
+    size: number,
+    search: Search
+  ): Observable<RecipePage> {
     let params = new HttpParams().set('pageNum', page).set('pageSize', size);
 
-    return this.http.post<any>(`${API_URL}/${this.recipeUrl}/search`, search, {
-      headers: httpOptions.headers,
-      params: params,
-    });
+    return this.http.post<RecipePage>(
+      `${API_URL}/${this.recipeUrl}/search`,
+      search,
+      {
+        headers: httpOptions.headers,
+        params: params,
+      }
+    );
   }
 }

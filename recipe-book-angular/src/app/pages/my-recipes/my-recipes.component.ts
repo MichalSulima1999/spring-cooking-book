@@ -3,6 +3,7 @@ import { Recipe } from 'src/app/interfaces/Recipe';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Search } from 'src/app/interfaces/Search';
+import { RecipePage } from 'src/app/interfaces/RecipePage';
 
 @Component({
   selector: 'app-my-recipes',
@@ -35,9 +36,9 @@ export class MyRecipesComponent implements OnInit {
     this.search = search;
     this.recipeService
       .searchRecipes(this.page, this.pageSize, search)
-      .subscribe((recipes: any) => {
-        this.recipes = recipes.content;
-        this.count = recipes.totalElements;
+      .subscribe((recipePage: RecipePage) => {
+        this.recipes = recipePage.content;
+        this.count = recipePage.totalElements;
       });
   }
 
